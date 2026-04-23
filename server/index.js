@@ -196,10 +196,15 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`🚀 服务器运行在端口 ${PORT}`)
-  console.log(`📊 API 端点：/api/submissions`)
-  console.log(`🔐 管理密码：${ADMIN_PASSWORD}`)
-  console.log(`💚 健康检查：/health`)
-})
+// 启动服务器（本地开发）
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 服务器运行在端口 ${PORT}`)
+    console.log(`📊 API 端点：/api/submissions`)
+    console.log(`🔐 管理密码：${ADMIN_PASSWORD}`)
+    console.log(`💚 健康检查：/health`)
+  })
+}
+
+// 导出给 Vercel 使用
+export default app
