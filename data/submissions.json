@@ -1,0 +1,288 @@
+[
+  {
+    "id": "00000ae2-5cd9-47ba-adba-0c05a3f1ff41",
+    "age": "26-35 岁",
+    "gender": "女",
+    "occupation": "企业职场人员（普通职员/基层/中层/高层管理者）",
+    "occupationOther": "",
+    "position": "基层管理者",
+    "positionOther": "",
+    "models": [
+      "中国：千问（Qwen，阿里）",
+      "中国：Kimi",
+      "中国：百度文心一言",
+      "美国：ChatGPT（含 GPT-4）",
+      "美国：Claude",
+      "美国：Gemini"
+    ],
+    "modelsOther": "",
+    "userType": "C 端用户（个人用户，用于消费、日常使用等非商业用途）",
+    "businessIdentities": [
+      "网上办公用户（含钉钉、飞书、企业微信等协同办公工具使用者）",
+      "云服务使用者（含阿里云、华为云、腾讯云、字节火山云、亚马逊云、微软云、谷歌云等）"
+    ],
+    "businessIdentityOther": "",
+    "alibabaProducts": [
+      "千问 APP（个人使用）"
+    ],
+    "taobaoSeller": "否",
+    "storeAge": "",
+    "storeType": "",
+    "categories": [],
+    "taobaoFunctions": [],
+    "ecommercePlatforms": [],
+    "taobaoRatings": [],
+    "taobaoStrengths": [],
+    "taobaoWeaknesses": [],
+    "taobaoFuturePlan": "",
+    "taobaoSuggestion": "",
+    "cloudUser": "否",
+    "cloudProviders": [],
+    "cloudScenarios": [],
+    "aliyunDuration": "",
+    "aliyunPayment": "",
+    "aliyunSpending": "",
+    "aliyunRatings": [],
+    "cloudBest": [],
+    "aliyunStrengths": [],
+    "aliyunWeaknesses": [],
+    "aliyunFuturePlan": "",
+    "aliyunSuggestion": "",
+    "officeToolUser": "是",
+    "officeTools": [
+      "钉钉",
+      "飞书"
+    ],
+    "companySize": "小型企业（1-50 人）",
+    "dingtalkScenarios": [
+      "流程审批（请假、报销、采购等）",
+      "文档协作（共同编辑、分享等）",
+      "团队沟通（即时消息、群聊等）",
+      "考勤管理（打卡、请假、排班等）",
+      "会议协同（线上会议、会议纪要等）"
+    ],
+    "dingtalkRatings": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      3,
+      4,
+      5,
+      5,
+      3,
+      4
+    ],
+    "dingtalkStrengths": [
+      "功能全面，覆盖办公全场景",
+      "操作简单，员工上手快"
+    ],
+    "dingtalkWeaknesses": [
+      "个性化定制能力不足"
+    ],
+    "dingtalkFuturePlan": "增加其他平台投入，降低依赖",
+    "llmUser": "是",
+    "llmModels": [
+      "国内模型：千问（Qwen，阿里）",
+      "国内模型：GLM",
+      "国内模型：Kimi",
+      "海外模型：ChatGPT（含 GPT-4）",
+      "海外模型：Gemini"
+    ],
+    "llmScenarios": [
+      "企业智能客服（客户咨询、问题解答等）",
+      "内容生成（文案、海报、报告、代码等）",
+      "数据分析与处理（数据整理、趋势分析等）",
+      "产品研发辅助（需求分析、原型设计等）",
+      "舆情分析"
+    ],
+    "qwenDuration": "3 个月 -1 年",
+    "qwenDepth": "中度适配（根据业务需求简单调整）",
+    "qwenRatings": [
+      4,
+      4,
+      3,
+      3,
+      4,
+      5,
+      4,
+      3,
+      3,
+      4,
+      4,
+      3
+    ],
+    "qwenStrengths": [
+      "中文语境适配性突出",
+      "生成内容质量高，准确性强",
+      "与阿里生态产品协同性强"
+    ],
+    "qwenWeaknesses": [
+      "部分细分行业专业知识库不够完善"
+    ],
+    "qwenFuturePlan": "重点使用，减少其他平台投入",
+    "submittedAt": "2026-04-22T06:16:53.876Z"
+  },
+  {
+    "id": "f5d2d943-d3fe-4084-a385-b0f12562df2f",
+    "age": "26-35 岁",
+    "gender": "",
+    "occupation": "企业职场人员（普通职员/基层/中层/高层管理者）",
+    "occupationOther": "",
+    "position": "基层管理者",
+    "positionOther": "",
+    "models": [
+      "中国：千问（Qwen，阿里）",
+      "中国：GLM",
+      "中国：Kimi"
+    ],
+    "modelsOther": "",
+    "userType": "C 端用户（个人用户，用于消费、日常使用等非商业用途）",
+    "businessIdentities": [],
+    "businessIdentityOther": "",
+    "alibabaProducts": [
+      "千问 APP（个人使用，原 Qwen APP）",
+      "支付宝（含支付、理财、生活服务等）",
+      "淘宝/天猫（消费者）",
+      "淘宝/天猫外卖（消费者）"
+    ],
+    "taobaoSeller": "否",
+    "storeAge": "",
+    "storeType": "",
+    "categories": [],
+    "taobaoFunctions": [],
+    "ecommercePlatforms": [],
+    "taobaoRatings": [],
+    "taobaoComparisons": [],
+    "taobaoStrengths": [],
+    "taobaoWeaknesses": [],
+    "taobaoFuturePlan": "",
+    "taobaoSuggestion": "",
+    "taobaoFlash": "否",
+    "flashFreq": "",
+    "flashCategories": [],
+    "flashReasons": [],
+    "meituanUser": "",
+    "flashMeituanRatings": [],
+    "meituanRatings": [],
+    "flashComparisons": [],
+    "flashSatisfaction": "",
+    "flashStrengths": [],
+    "flashWeaknesses": [],
+    "flashFuturePlan": "",
+    "flashSuggestion": "",
+    "cloudUser": "否",
+    "cloudProviders": [],
+    "cloudScenarios": [],
+    "aliyunDuration": "",
+    "aliyunPayment": "",
+    "aliyunSpending": "",
+    "aliyunRatings": [],
+    "cloudBest": [],
+    "aliyunStrengths": [],
+    "aliyunWeaknesses": [],
+    "aliyunFuturePlan": "",
+    "aliyunSuggestion": "",
+    "officeToolUser": "是",
+    "officeTools": [
+      "钉钉",
+      "企业微信"
+    ],
+    "companySize": "小型企业（1-50 人）",
+    "dingtalkScenarios": [
+      "团队沟通（即时消息、群聊等）",
+      "考勤管理（打卡、请假、排班等）",
+      "流程审批（请假、报销、采购等）"
+    ],
+    "dingtalkFreq": "每周 3-5 次",
+    "dingtalkPayment": "仅使用免费功能",
+    "dingtalkRatings": [
+      4,
+      3,
+      4,
+      4,
+      4,
+      3,
+      4,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "dingtalkComparisons": [
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好",
+      "钉钉更全/更便捷/更高/更好"
+    ],
+    "dingtalkStrengths": [
+      "功能全面，覆盖办公全场景",
+      "操作简单，员工上手快"
+    ],
+    "dingtalkWeaknesses": [
+      "与部分非阿里系工具兼容性差"
+    ],
+    "dingtalkFuturePlan": "增加其他平台投入，降低依赖",
+    "dingtalkSuggestion": "",
+    "llmUser": "是",
+    "llmModels": [
+      "国内模型：千问（Qwen，阿里）",
+      "国内模型：GLM",
+      "国内模型：Kimi",
+      "海外模型：ChatGPT（含 GPT-4）",
+      "海外模型：Claude",
+      "海外模型：Gemini"
+    ],
+    "llmScenarios": [
+      "企业智能客服（客户咨询、问题解答等）",
+      "内容生成（文案、海报、报告、代码等）",
+      "数据分析与处理（数据整理、趋势分析等）",
+      "舆情分析",
+      "产品研发辅助（需求分析、原型设计等）"
+    ],
+    "qwenDuration": "3 个月 -1 年",
+    "qwenDepth": "中度适配（根据业务需求简单调整）",
+    "qwenPayment": "按次/按量付费",
+    "qwenRatings": [
+      4,
+      3,
+      4,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "qwenBest": [
+      "千问（Qwen）",
+      "GLM",
+      "千问（Qwen）",
+      "ChatGPT（含 GPT-4）",
+      "千问（Qwen）",
+      "千问（Qwen）",
+      "千问（Qwen）",
+      "千问（Qwen）",
+      "千问（Qwen）",
+      "千问（Qwen）"
+    ],
+    "qwenStrengths": [
+      "生成内容质量高，准确性强",
+      "响应速度快，无明显延迟",
+      "中文语境适配性突出，贴合国内用户需求"
+    ],
+    "qwenWeaknesses": [
+      "多语言支持能力较弱，海外语境适配不足"
+    ],
+    "qwenFuturePlan": "增加其他平台投入，降低依赖",
+    "submittedAt": "2026-04-22T06:41:45.940Z"
+  }
+]
