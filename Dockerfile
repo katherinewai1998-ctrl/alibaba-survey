@@ -1,5 +1,5 @@
-# 使用 Node.js 官方镜像（指定具体版本）
-FROM node:18.20-alpine
+# 使用阿里云镜像仓库的 Node.js 镜像
+FROM registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/node:18.20-alpine
 
 # 设置工作目录
 WORKDIR /app
