@@ -131,7 +131,7 @@
             <div class="form-group">
               <label class="form-label required">1. 您目前选择使用的云服务商有哪些？（可多选）</label>
               <div class="checkbox-group">
-                <label v-for="opt in cloudProviders" :key="opt" class="checkbox-option"><input type="radio" v-model="form.cloudProviders" :value="opt"> {{ opt }}</label>
+                <label v-for="opt in cloudProviders" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" :value="opt"> {{ opt }}</label>
               </div>
             </div>
 
