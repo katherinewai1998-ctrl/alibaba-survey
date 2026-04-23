@@ -1,0 +1,47 @@
+{
+  "version": "2.0",
+  "envId": "{{envId}}",
+  "functionRoot": "server",
+  "functions": [
+    {
+      "name": "alibaba-survey",
+      "runtime": "Nodejs18",
+      "handler": "index.main",
+      "timeout": 30,
+      "envVariables": {
+        "NODE_ENV": "production",
+        "ADMIN_PASSWORD": "admin123"
+      }
+    }
+  ],
+  "framework": {
+    "name": "alibaba-survey",
+    "plugins": {
+      "function": {
+        "use": "@cloudbase/framework-plugin-function",
+        "inputs": {
+          "functionRootPath": "server",
+          "functions": [
+            {
+              "name": "alibaba-survey",
+              "runtime": "Nodejs18",
+              "handler": "index.main",
+              "timeout": 30,
+              "envVariables": {
+                "NODE_ENV": "production",
+                "ADMIN_PASSWORD": "admin123"
+              }
+            }
+          ],
+          "service": {
+            "name": "alibaba-survey",
+            "envVariables": {
+              "NODE_ENV": "production",
+              "ADMIN_PASSWORD": "admin123"
+            }
+          }
+        }
+      }
+    }
+  }
+}
