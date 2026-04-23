@@ -129,36 +129,45 @@
             <h2 class="section-title">二、阿里云专项调研</h2>
             
             <div class="form-group">
-              <label class="form-label required">1. 您目前选择使用的云服务商有哪些？（可多选）</label>
-              <div class="checkbox-group">
-                <label v-for="opt in cloudProviders" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" :value="opt"> {{ opt }}</label>
+              <label class="form-label required">1. 您是否使用过任何云服务厂商的服务？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.cloudUser" value="是"> 是（继续作答本专项）</label>
+                <label class="radio-option"><input type="radio" v-model="form.cloudUser" value="否"> 否（跳过本专项）</label>
               </div>
             </div>
 
-            <div v-if="form.cloudProviders.includes('阿里云')" class="subsection">
-              <h3 class="subsection-title">2. 您使用阿里云的核心业务场景是？（可多选）</h3>
-              <div class="checkbox-group">
-                <label v-for="opt in alibabaCloudScenarios" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.alibabaCloudScenarios" :value="opt"> {{ opt }}</label>
+            <div v-if="form.cloudUser === '是'">
+              <div class="form-group">
+                <label class="form-label">2. 您目前选择使用的云服务商有哪些？（可多选）</label>
+                <div class="checkbox-group">
+                  <label v-for="opt in cloudProviders" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" :value="opt"> {{ opt }}</label>
+                </div>
               </div>
-            </div>
+
+              <div v-if="form.cloudProviders.includes('阿里云')" class="subsection">
+                <h3 class="subsection-title">3. 您使用阿里云的核心业务场景是？（可多选）</h3>
+                <div class="checkbox-group">
+                  <label v-for="opt in alibabaCloudScenarios" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.alibabaCloudScenarios" :value="opt"> {{ opt }}</label>
+                </div>
+              </div>
 
             <div v-if="form.cloudProviders.includes('阿里云')">
               <div class="form-group">
-                <label class="form-label">3. 您认为阿里云的核心优势是什么？（可多选）</label>
+                <label class="form-label">4. 您认为阿里云的核心优势是什么？（可多选）</label>
                 <div class="checkbox-group">
                   <label v-for="opt in alibabaCloudStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.alibabaCloudStrengths" :value="opt"> {{ opt }}</label>
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">4. 您认为阿里云目前存在哪些不足？（可多选）</label>
+                <label class="form-label">5. 您认为阿里云目前存在哪些不足？（可多选）</label>
                 <div class="checkbox-group">
                   <label v-for="opt in alibabaCloudWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.alibabaCloudWeaknesses" :value="opt"> {{ opt }}</label>
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">5. 满意度评分（1-5 分，5 分为非常满意）</label>
+                <label class="form-label">6. 满意度评分（1-5 分，5 分为非常满意）</label>
                 <div class="rating-group">
                   <div class="rating-item" v-for="(item, idx) in alibabaCloudRatingItems" :key="idx">
                     <label class="rating-label">{{ item }}</label>
@@ -173,7 +182,7 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label">6. 与其他云厂商对比（单选）</label>
+                <label class="form-label">7. 与其他云厂商对比（单选）</label>
                 <div class="rating-group">
                   <div class="rating-item" v-for="(item, idx) in alibabaCloudComparisonItems" :key="idx">
                     <label class="rating-label">{{ item }}</label>
@@ -187,16 +196,17 @@
               </div>
 
               <div class="form-group">
-                <label class="form-label">7. 未来 1 年内，您对云服务厂商的选择计划是？</label>
+                <label class="form-label">8. 未来 1 年内，您对云服务厂商的选择计划是？</label>
                 <div class="radio-group">
                   <label v-for="opt in cloudFuturePlanOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.alibabaCloudFuturePlan" :value="opt"> {{ opt }}</label>
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="form-label">8. 您认为阿里云需要在哪些方面优化才能提升竞争力？（简答题）</label>
+                <label class="form-label">9. 您认为阿里云需要在哪些方面优化才能提升竞争力？（简答题）</label>
                 <textarea v-model="form.alibabaCloudSuggestion" class="textarea" placeholder="请分享您的宝贵建议..."></textarea>
               </div>
+            </div>
             </div>
           </div>
 
@@ -319,6 +329,7 @@
             occupation: '',
             position: '',
             models: [],
+            cloudUser: '',
             cloudProviders: [],
             alibabaCloudScenarios: [],
             alibabaCloudStrengths: [],
