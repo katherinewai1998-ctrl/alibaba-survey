@@ -10,8 +10,8 @@ const __dirname = dirname(__filename)
 
 const app = express()
 
-// 使用环境变量配置端口
-const PORT = process.env.PORT || 3000
+// 使用环境变量配置端口（阿里云 SAE 默认使用 8080）
+const PORT = process.env.PORT || process.env.SERVER_PORT || 3000
 
 // 管理密码（可以通过环境变量配置）
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'
