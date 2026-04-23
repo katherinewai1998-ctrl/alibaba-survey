@@ -196,8 +196,9 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
-// 启动服务器（本地开发）
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+// 启动服务器
+// 腾讯云 CloudBase / 阿里云 SAE / Vercel 都支持
+const startServer = () => {
   app.listen(PORT, () => {
     console.log(`🚀 服务器运行在端口 ${PORT}`)
     console.log(`📊 API 端点：/api/submissions`)
@@ -206,5 +207,13 @@ if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   })
 }
 
-// 导出给 Vercel 使用
+// 生产环境直接启动
+if (process.env.NODE_ENV === 'production') {
+  startServer()
+} else {
+  // 开发环境也启动
+  startServer()
+}
+
+// 导出给 Serverless 平台使用
 export default app
