@@ -325,17 +325,15 @@
                 </div>
               </div>
 
-              <div v-if="form.meituanUser === '是'">
-                <div class="form-group">
-                  <label class="form-label">7. 对比美团外卖（消费者端，若使用），您认为淘宝闪购在以下维度的表现如何？（每道题单选，未使用美团外卖可跳过）</label>
-                  <div class="rating-group">
-                    <div class="rating-item" v-for="(item, idx) in flashMeituanComparisonLabels" :key="idx">
-                      <label class="rating-label">{{ item }}</label>
-                      <div class="rating-options">
-                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashMeituanComp'+idx" v-model="form.flashMeituanComparisons[idx]" value="淘宝闪购更大/更好/更快/更有保障/更便捷/更高"><span>淘宝闪购</span></label>
-                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashMeituanComp'+idx" v-model="form.flashMeituanComparisons[idx]" value="美团外卖更大/更好/更快/更有保障/更便捷/更高"><span>美团外卖</span></label>
-                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashMeituanComp'+idx" v-model="form.flashMeituanComparisons[idx]" value="两者差不多"><span>差不多</span></label>
-                      </div>
+              <div class="form-group">
+                <label class="form-label">7. 对比美团外卖（消费者端，若使用），您认为淘宝闪购在以下维度的表现如何？（每道题单选，未使用美团外卖可跳过）</label>
+                <div class="rating-group">
+                  <div class="rating-item" v-for="(item, idx) in flashMeituanComparisonLabels" :key="idx">
+                    <label class="rating-label">{{ item }}</label>
+                    <div class="rating-options">
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashMeituanComp'+idx" v-model="form.flashMeituanComparisons[idx]" value="淘宝闪购更大/更好/更快/更有保障/更便捷/更高"><span>淘宝闪购</span></label>
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashMeituanComp'+idx" v-model="form.flashMeituanComparisons[idx]" value="美团外卖更大/更好/更快/更有保障/更便捷/更高"><span>美团外卖</span></label>
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashMeituanComp'+idx" v-model="form.flashMeituanComparisons[idx]" value="两者差不多"><span>差不多</span></label>
                     </div>
                   </div>
                 </div>
