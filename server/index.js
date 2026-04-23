@@ -23,6 +23,23 @@ app.use(express.json({ limit: '10mb' }))
 // 静态文件服务
 app.use(express.static(join(__dirname, '../public')))
 
+// 明确路由：多个问卷页面
+app.get('/index-cloud-ai.html', (req, res) => {
+  res.sendFile(join(__dirname, '../public/index-cloud-ai.html'))
+})
+
+app.get('/index-ecommerce-office.html', (req, res) => {
+  res.sendFile(join(__dirname, '../public/index-ecommerce-office.html'))
+})
+
+app.get('/cloud-ai', (req, res) => {
+  res.sendFile(join(__dirname, '../public/index-cloud-ai.html'))
+})
+
+app.get('/ecommerce-office', (req, res) => {
+  res.sendFile(join(__dirname, '../public/index-ecommerce-office.html'))
+})
+
 // 数据文件路径
 const dataDir = join(__dirname, '../data')
 const dataFile = join(dataDir, 'submissions.json')

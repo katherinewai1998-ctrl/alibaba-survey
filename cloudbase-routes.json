@@ -1,0 +1,16 @@
+{
+  "routes": [
+    {
+      "source": "/index-cloud-ai.html",
+      "destination": "/index-cloud-ai.html"
+    },
+    {
+      "source": "/index-ecommerce-office.html",
+      "destination": "/index-ecommerce-office.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ]
+}
