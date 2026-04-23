@@ -17,6 +17,9 @@
     "cors": "^2.8.5",
     "uuid": "^9.0.1"
   },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
+  },
   "repository": {
     "type": "git",
     "url": ""
