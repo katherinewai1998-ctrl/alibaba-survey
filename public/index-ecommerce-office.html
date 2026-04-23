@@ -411,75 +411,66 @@
                 </div>
               </div>
 
-              <div v-if="form.officeTools.includes('钉钉')">
-                <div class="form-group">
-                  <label class="form-label">4. 您使用钉钉的核心场景是？（可多选）</label>
-                  <div class="checkbox-group">
-                    <label v-for="opt in dingtalkScenarios" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkScenarios" :value="opt"> {{ opt }}</label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">5. 满意度评分（1-5 分）</label>
-                  <div class="rating-group">
-                    <div class="rating-item" v-for="(item, idx) in dingtalkRatingItems" :key="idx">
-                      <label class="rating-label">{{ item }}</label>
-                      <div class="rating-options">
-                        <label v-for="n in 5" :key="n" class="rating-option">
-                          <input type="radio" :name="'dingtalkRating'+idx" v-model="form.dingtalkRatings[idx]" :value="n">
-                          <span>{{ n }}</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">6. 与其他工具对比（单选）</label>
-                  <div class="rating-group">
-                    <div class="rating-item" v-for="(item, idx) in dingtalkComparisonItems" :key="idx">
-                      <label class="rating-label">{{ item }}</label>
-                      <div class="rating-options">
-                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="钉钉更好"><span>钉钉更好</span></label>
-                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="其他工具更好"><span>其他工具更好</span></label>
-                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="两者差不多"><span>差不多</span></label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">7. 核心优势？（可多选）</label>
-                  <div class="checkbox-group">
-                    <label v-for="opt in dingtalkStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkStrengths" :value="opt"> {{ opt }}</label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">8. 主要问题？（可多选）</label>
-                  <div class="checkbox-group">
-                    <label v-for="opt in dingtalkWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkWeaknesses" :value="opt"> {{ opt }}</label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">9. 未来使用计划？</label>
-                  <div class="radio-group">
-                    <label v-for="opt in dingtalkFuturePlanOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.dingtalkFuturePlan" :value="opt"> {{ opt }}</label>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">10. 优化建议（可选）</label>
-                  <textarea v-model="form.dingtalkSuggestion" class="textarea" placeholder="请分享您的宝贵建议..."></textarea>
+              <div class="form-group">
+                <label class="form-label">4. 您使用钉钉的核心场景是？（可多选）</label>
+                <div class="checkbox-group">
+                  <label v-for="opt in dingtalkScenarios" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkScenarios" :value="opt"> {{ opt }}</label>
                 </div>
               </div>
 
-              <div v-if="!form.officeTools.includes('钉钉')">
-                <div class="form-group">
-                  <label class="form-label">4. 您使用其他协同办公工具的体验如何？（可选）</label>
-                  <textarea v-model="form.dingtalkOtherSuggestion" class="textarea" placeholder="请分享您的使用体验..."></textarea>
+              <div class="form-group">
+                <label class="form-label">5. 满意度评分（1-5 分）</label>
+                <div class="rating-group">
+                  <div class="rating-item" v-for="(item, idx) in dingtalkRatingItems" :key="idx">
+                    <label class="rating-label">{{ item }}</label>
+                    <div class="rating-options">
+                      <label v-for="n in 5" :key="n" class="rating-option">
+                        <input type="radio" :name="'dingtalkRating'+idx" v-model="form.dingtalkRatings[idx]" :value="n">
+                        <span>{{ n }}</span>
+                      </label>
+                    </div>
+                  </div>
                 </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">6. 与其他工具对比（单选）</label>
+                <div class="rating-group">
+                  <div class="rating-item" v-for="(item, idx) in dingtalkComparisonItems" :key="idx">
+                    <label class="rating-label">{{ item }}</label>
+                    <div class="rating-options">
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="钉钉更好"><span>钉钉更好</span></label>
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="其他工具更好"><span>其他工具更好</span></label>
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="两者差不多"><span>差不多</span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">7. 核心优势？（可多选）</label>
+                <div class="checkbox-group">
+                  <label v-for="opt in dingtalkStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkStrengths" :value="opt"> {{ opt }}</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">8. 主要问题？（可多选）</label>
+                <div class="checkbox-group">
+                  <label v-for="opt in dingtalkWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkWeaknesses" :value="opt"> {{ opt }}</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">9. 未来使用计划？</label>
+                <div class="radio-group">
+                  <label v-for="opt in dingtalkFuturePlanOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.dingtalkFuturePlan" :value="opt"> {{ opt }}</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">10. 优化建议（可选）</label>
+                <textarea v-model="form.dingtalkSuggestion" class="textarea" placeholder="请分享您的宝贵建议..."></textarea>
               </div>
             </div>
           </div>
