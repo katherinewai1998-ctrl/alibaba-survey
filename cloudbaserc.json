@@ -41,6 +41,32 @@
             }
           }
         }
+      },
+      "hosting": {
+        "use": "@cloudbase/framework-plugin-website",
+        "inputs": {
+          "buildCommand": "echo 'No build needed'",
+          "outputPath": "public",
+          "cloudPath": "/",
+          "routes": [
+            {
+              "source": "/index-cloud-ai.html",
+              "destination": "/index-cloud-ai.html"
+            },
+            {
+              "source": "/index-ecommerce-office.html",
+              "destination": "/index-ecommerce-office.html"
+            },
+            {
+              "source": "/admin.html",
+              "destination": "/admin.html"
+            },
+            {
+              "source": "/",
+              "destination": "/index.html"
+            }
+          ]
+        }
       }
     }
   }
