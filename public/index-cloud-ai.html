@@ -409,8 +409,9 @@
           this.form.surveyType = 'A'
           try {
             const res = await fetch('/api/submissions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.form) })
-            if (res.ok) { this.submitted = true; window.scrollTo(0, 0) } else { alert('提交失败，请重试') }
-          } catch (e) { alert('提交失败：' + e.message) }
+            const data = await res.json()
+            if (res.ok) { this.submitted = true; window.scrollTo(0, 0) } else { alert('提交失败：' + (data.error || res.statusText) + '，请重试') }
+          } catch (e) { alert('提交失败：' + e.message + '，请检查网络连接后重试') }
         }
       }
     }).mount('#app')
