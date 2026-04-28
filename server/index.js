@@ -40,6 +40,10 @@ app.get('/ecommerce-office', (req, res) => {
   res.sendFile(join(__dirname, '../public/index-ecommerce-office.html'))
 })
 
+app.get('/admin', (req, res) => {
+  res.sendFile(join(__dirname, '../public/admin.html'))
+})
+
 // 数据文件路径
 const dataDir = join(__dirname, '../data')
 const dataFile = join(dataDir, 'submissions.json')
@@ -93,6 +97,22 @@ function requireAdmin(req, res, next) {
 }
 
 // API 路由
+
+// 管理员登录
+app.post('/api/admin/login', (req, res) => {
+  const { password } = req.body
+  
+  if (password === ADMIN_PASSWORD) {
+    const sessionId = uuidv4()
+    sessions.set(sessionId, {
+      isAdmin: true,
+      expires: Date.now() + 24 * 60 * 60 * 1000 // 24 小时
+    })
+    res.json({ success: true, sessionId })
+  } else {
+    res.status(401).json({ error: '密码错误' })
+  }
+})
 
 // 获取所有提交（需要管理员权限）
 app.get('/api/submissions', requireAdmin, (req, res) => {

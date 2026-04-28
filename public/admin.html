@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>问卷管理后台</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #f5f5f5; min-height: 100vh; padding: 2rem; }
+    .container { max-width: 1400px; margin: 0 auto; }
+    .card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-bottom: 2rem; }
+    .card-title { font-size: 1.8rem; color: #333; margin-bottom: 1rem; border-bottom: 3px solid #ff6a00; padding-bottom: 0.5rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label { display: block; font-weight: 600; margin-bottom: 0.8rem; color: #333; }
+    .text-input { width: 100%; padding: 0.8rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; }
+    .text-input:focus { outline: none; border-color: #ff6a00; }
+    .btn { padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+    .btn-primary { background: #ff6a00; color: white; }
+    .btn-primary:hover { background: #e55e00; }
+    .btn-secondary { background: #6c757d; color: white; margin-right: 1rem; }
+    .btn-danger { background: #dc3545; color: white; }
+    .btn-danger:hover { background: #c82333; }
+    .alert-error { padding: 1rem; background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 8px; margin-bottom: 1rem; }
+    .alert-success { padding: 1rem; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 8px; margin-bottom: 1rem; }
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .data-table th, .data-table td { padding: 1rem; text-align: left; border-bottom: 1px solid #e0e0e0; }
+    .data-table th { background: #f8f9fa; font-weight: 600; }
+    .data-table tr:hover { background: #f8f9fa; }
+    .filter-bar { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+    .filter-select { padding: 0.6rem 1rem; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 0.9rem; }
+    .badge { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; }
+    .badge-a { background: #e3f2fd; color: #1976d2; }
+    .badge-b { background: #fff3e0; color: #f57c00; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .stat-card { background: #f8f9fa; padding: 1.5rem; border-radius: 8px; text-align: center; }
+    .stat-number { font-size: 2rem; font-weight: bold; color: #ff6a00; }
+    .stat-label { color: #666; margin-top: 0.5rem; }
+    .action-btn { padding: 0.4rem 0.8rem; font-size: 0.85rem; border-radius: 4px; border: none; cursor: pointer; margin-right: 0.5rem; }
+    .action-btn.view { background: #17a2b8; color: white; }
+    .action-btn.delete { background: #dc3545; color: white; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; }
+    .modal.show { display: flex; align-items: center; justify-content: center; }
+    .modal-content { background: white; border-radius: 12px; padding: 2rem; max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto; }
+    .modal-header { font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.5rem; }
+    .detail-row { margin-bottom: 1rem; }
+    .detail-label { font-weight: 600; color: #666; margin-bottom: 0.3rem; }
+    .detail-value { color: #333; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <!-- 登录页面 -->
+      <div v-if="!isAdminLoggedIn" class="card" style="max-width: 500px; margin: 4rem auto;">
+        <h1 class="card-title">管理后台登录</h1>
+        <div v-if="error" class="alert-error">{{ error }}</div>
+        <div class="form-group">
+          <label class="form-label">管理密码</label>
+          <input type="password" v-model="password" class="text-input" placeholder="请输入管理密码" @keyup.enter="login">
+        </div>
+        <button class="btn btn-primary" @click="login" style="width: 100%;">登录</button>
+        <div style="margin-top: 1rem; text-align: center;">
+          <a href="/" style="color: #ff6a00;">返回首页</a>
+        </div>
+      </div>
+
+      <!-- 管理后台 -->
+      <div v-else class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <h1 class="card-title">问卷数据管理后台</h1>
+          <button class="btn btn-secondary" @click="logout">退出登录</button>
+        </div>
+
+        <div v-if="success" class="alert-success">{{ success }}</div>
+
+        <!-- 统计信息 -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">{{ totalSubmissions }}</div>
+            <div class="stat-label">总提交数</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">{{ surveyASubmissions }}</div>
+            <div class="stat-label">问卷 A 提交</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">{{ surveyBSubmissions }}</div>
+            <div class="stat-label">问卷 B 提交</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">{{ todaySubmissions }}</div>
+            <div class="stat-label">今日提交</div>
+          </div>
+        </div>
+
+        <!-- 筛选栏 -->
+        <div class="filter-bar">
+          <select v-model="filterSurvey" class="filter-select">
+            <option value="">全部问卷</option>
+            <option value="A">问卷 A（阿里云 & 千问）</option>
+            <option value="B">问卷 B（电商&办公）</option>
+          </select>
+          <select v-model="filterUserType" class="filter-select">
+            <option value="">全部用户类型</option>
+            <option value="B 端">B 端用户</option>
+            <option value="C 端">C 端用户</option>
+          </select>
+          <input type="date" v-model="filterDate" class="filter-select">
+          <button class="btn btn-secondary" @click="resetFilters">重置筛选</button>
+          <button class="btn btn-primary" @click="exportCSV" style="margin-left: auto;">导出 CSV</button>
+        </div>
+
+        <!-- 数据表格 -->
+        <div style="overflow-x: auto;">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>提交时间</th>
+                <th>问卷类型</th>
+                <th>用户类型</th>
+                <th>年龄段</th>
+                <th>职业</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in filteredData" :key="item.submittedAt">
+                <td>{{ formatDate(item.submittedAt) }}</td>
+                <td><span class="badge" :class="item.surveyType === 'A' ? 'badge-a' : 'badge-b'">{{ item.surveyType === 'A' ? '问卷 A' : '问卷 B' }}</span></td>
+                <td>{{ item.userType || '-' }}</td>
+                <td>{{ item.age || '-' }}</td>
+                <td>{{ item.occupation || '-' }}</td>
+                <td>
+                  <button class="action-btn view" @click="viewDetail(item)">查看</button>
+                  <button class="action-btn delete" @click="deleteItem(item.submittedAt)">删除</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div v-if="filteredData.length === 0" style="text-align: center; padding: 3rem; color: #999;">
+          暂无数据
+        </div>
+      </div>
+
+      <!-- 详情弹窗 -->
+      <div class="modal" :class="{ show: showDetailModal }">
+        <div class="modal-content">
+          <div class="modal-header">问卷详情</div>
+          <div v-if="selectedItem">
+            <div class="detail-row">
+              <div class="detail-label">提交时间</div>
+              <div class="detail-value">{{ formatDate(selectedItem.submittedAt) }}</div>
+            </div>
+            <div class="detail-row">
+              <div class="detail-label">问卷类型</div>
+              <div class="detail-value">{{ selectedItem.surveyType === 'A' ? '问卷 A（阿里云 & 千问）' : '问卷 B（电商&办公）' }}</div>
+            </div>
+            <div class="detail-row" v-for="(value, key) in selectedItem" :key="key" v-if="!['submittedAt', 'surveyType'].includes(key)">
+              <div class="detail-label">{{ key }}</div>
+              <div class="detail-value">{{ formatValue(value) }}</div>
+            </div>
+          </div>
+          <div style="margin-top: 2rem; text-align: right;">
+            <button class="btn btn-secondary" @click="showDetailModal = false">关闭</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue
+
+    createApp({
+      data() {
+        return {
+          password: '',
+          error: '',
+          success: '',
+          isAdminLoggedIn: false,
+          sessionId: '',
+          submissions: [],
+          filterSurvey: '',
+          filterUserType: '',
+          filterDate: '',
+          showDetailModal: false,
+          selectedItem: null
+        }
+      },
+      computed: {
+        totalSubmissions() { return this.submissions.length },
+        surveyASubmissions() { return this.submissions.filter(s => s.surveyType === 'A').length },
+        surveyBSubmissions() { return this.submissions.filter(s => s.surveyType === 'B').length },
+        todaySubmissions() {
+          const today = new Date().toDateString()
+          return this.submissions.filter(s => new Date(s.submittedAt).toDateString() === today).length
+        },
+        filteredData() {
+          return this.submissions.filter(item => {
+            if (this.filterSurvey && item.surveyType !== this.filterSurvey) return false
+            if (this.filterUserType && !item.userType?.includes(this.filterUserType)) return false
+            if (this.filterDate && new Date(item.submittedAt).toDateString() !== new Date(this.filterDate).toDateString()) return false
+            return true
+          }).sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt))
+        }
+      },
+      mounted() {
+        const savedSession = localStorage.getItem('adminSessionId')
+        if (savedSession) {
+          this.sessionId = savedSession
+          this.isAdminLoggedIn = true
+          this.loadData()
+        }
+      },
+      methods: {
+        async login() {
+          try {
+            const res = await fetch('/api/admin/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ password: this.password })
+            })
+            const data = await res.json()
+            if (res.ok) {
+              this.sessionId = data.sessionId
+              this.isAdminLoggedIn = true
+              this.error = ''
+              localStorage.setItem('adminSessionId', this.sessionId)
+              this.loadData()
+            } else {
+              this.error = data.error || '登录失败'
+            }
+          } catch (e) {
+            this.error = '登录失败：' + e.message
+          }
+        },
+        logout() {
+          this.isAdminLoggedIn = false
+          this.sessionId = ''
+          this.password = ''
+          localStorage.removeItem('adminSessionId')
+        },
+        async loadData() {
+          try {
+            const res = await fetch('/api/submissions', {
+              headers: { 'x-session-id': this.sessionId }
+            })
+            if (res.ok) {
+              this.submissions = await res.json()
+            }
+          } catch (e) {
+            console.error('加载数据失败:', e)
+          }
+        },
+        resetFilters() {
+          this.filterSurvey = ''
+          this.filterUserType = ''
+          this.filterDate = ''
+        },
+        viewDetail(item) {
+          this.selectedItem = item
+          this.showDetailModal = true
+        },
+        async deleteItem(submittedAt) {
+          if (!confirm('确定要删除这条提交记录吗？')) return
+          try {
+            const res = await fetch('/api/submissions/' + encodeURIComponent(submittedAt), {
+              method: 'DELETE',
+              headers: { 'x-session-id': this.sessionId }
+            })
+            if (res.ok) {
+              this.success = '删除成功'
+              this.loadData()
+              setTimeout(() => this.success = '', 3000)
+            }
+          } catch (e) {
+            alert('删除失败：' + e.message)
+          }
+        },
+        exportCSV() {
+          const headers = ['提交时间', '问卷类型', '用户类型', '年龄段', '性别', '职业', '职位']
+          const rows = this.filteredData.map(item => [
+            item.submittedAt,
+            item.surveyType === 'A' ? '问卷 A' : '问卷 B',
+            item.userType || '-',
+            item.age || '-',
+            item.gender || '-',
+            item.occupation || '-',
+            item.position || '-'
+          ])
+          const csv = [headers, ...rows].map(row => row.map(cell => `"${cell || ''}"`).join(',')).join('\n')
+          const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' })
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(blob)
+          link.download = '问卷数据_' + new Date().toISOString().slice(0, 10) + '.csv'
+          link.click()
+        },
+        formatDate(dateStr) {
+          const date = new Date(dateStr)
+          return date.toLocaleString('zh-CN', { hour12: false })
+        },
+        formatValue(value) {
+          if (Array.isArray(value)) return value.join(', ')
+          if (typeof value === 'object' && value !== null) return JSON.stringify(value)
+          return value || '-'
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>
