@@ -510,7 +510,6 @@
           page: 'survey',
           submitted: false,
           currentSection: 1,
-          maxSection: 6,
           form: {
             submittedAt: '',
             age: '',
@@ -598,13 +597,16 @@
         }
       },
       computed: {
+        maxSection() {
+          // B 端用户：5 个部分（基础信息、身份筛选、淘天商家、淘宝闪购、钉钉办公）
+          // C 端用户：4 个部分（基础信息、身份筛选、淘宝闪购、阿里产品体验）
+          if (this.isBUser) return 5
+          if (this.isCUser) return 4
+          return 2 // 未选择用户类型时，只显示前 2 部分
+        },
         progressPercentage() {
-          if (this.isBUser) {
-            return Math.round(((this.currentSection - 1) / 4) * 100)
-          } else if (this.isCUser) {
-            return Math.round(((this.currentSection - 1) / 3) * 100)
-          }
-          return Math.round(((this.currentSection - 1) / (this.maxSection - 1)) * 100)
+          const total = this.maxSection
+          return Math.round(((this.currentSection - 1) / (total - 1)) * 100)
         },
         isBUser() {
           return this.form.userType?.includes('B 端') || this.form.userType === '两者都是'
