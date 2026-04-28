@@ -23,7 +23,7 @@ app.use(express.json({ limit: '10mb' }))
 // 静态文件服务
 app.use(express.static(join(__dirname, '../public')))
 
-// 明确路由：多个问卷页面
+// 明确路由：多个问卷页面和管理后台
 app.get('/index-cloud-ai.html', (req, res) => {
   res.sendFile(join(__dirname, '../public/index-cloud-ai.html'))
 })
@@ -38,10 +38,6 @@ app.get('/cloud-ai', (req, res) => {
 
 app.get('/ecommerce-office', (req, res) => {
   res.sendFile(join(__dirname, '../public/index-ecommerce-office.html'))
-})
-
-app.get('/admin', (req, res) => {
-  res.sendFile(join(__dirname, '../public/admin.html'))
 })
 
 // 数据文件路径
