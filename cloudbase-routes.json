@@ -9,6 +9,10 @@
       "destination": "/index-ecommerce-office.html"
     },
     {
+      "source": "/admin.html",
+      "destination": "/admin.html"
+    },
+    {
       "source": "/",
       "destination": "/index.html"
     }
