@@ -112,6 +112,8 @@
               <div class="radio-group">
                 <label v-for="opt in occupationOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.occupation" :value="opt" required> {{ opt }}</label>
               </div>
+              <input v-if="form.occupation === \'其他\'" type="text" v-model="form.occupationOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+              <input v-if="form.occupation === '其他'" type="text" v-model="form.occupationOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
             </div>
 
             <div class="form-group">
@@ -119,6 +121,8 @@
               <div class="radio-group">
                 <label v-for="opt in positionOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.position" :value="opt" required> {{ opt }}</label>
               </div>
+              <input v-if="form.position === \'其他\'" type="text" v-model="form.positionOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+              <input v-if="form.position === '其他'" type="text" v-model="form.positionOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
             </div>
 
             <div class="form-group">
@@ -126,6 +130,7 @@
               <div class="checkbox-group">
                 <label v-for="model in modelOptions" :key="model" class="checkbox-option"><input type="checkbox" v-model="form.models" :value="model"> {{ model }}</label>
               </div>
+              <input v-if="form.models.includes('其他')" type="text" v-model="form.modelsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
             </div>
           </div>
 
@@ -145,6 +150,7 @@
               <div class="checkbox-group">
                 <label v-for="opt in businessIdentities" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.businessIdentities" :value="opt"> {{ opt }}</label>
               </div>
+              <input v-if="form.businessIdentities.includes('其他')" type="text" v-model="form.businessIdentitiesOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
             </div>
 
             <div v-if="isCUser" class="subsection">
@@ -152,6 +158,7 @@
               <div class="checkbox-group">
                 <label v-for="prod in alibabaProducts" :key="prod" class="checkbox-option"><input type="checkbox" v-model="form.alibabaProducts" :value="prod"> {{ prod }}</label>
               </div>
+              <input v-if="form.alibabaProducts.includes('其他')" type="text" v-model="form.alibabaProductsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
             </div>
           </div>
 
@@ -391,33 +398,48 @@
             age: '',
             gender: '',
             occupation: '',
+            occupationOther: '',
             position: '',
+            positionOther: '',
             models: [],
+            modelsOther: '',
             userType: '',
             businessIdentities: [],
+            businessIdentitiesOther: '',
             alibabaProducts: [],
+            alibabaProductsOther: '',
             cloudUser: '',
             cloudProviders: [],
+            cloudProvidersOther: '',
             alibabaCloudScenarios: [],
+            alibabaCloudScenariosOther: '',
             alibabaCloudDuration: '',
             alibabaCloudPayment: '',
+            alibabaCloudPaymentOther: '',
             alibabaCloudInvestment: '',
             alibabaCloudRatings: [],
             cloudComparisons: [],
             alibabaCloudStrengths: [],
+            alibabaCloudStrengthsOther: '',
             alibabaCloudWeaknesses: [],
+            alibabaCloudWeaknessesOther: '',
             alibabaCloudFuturePlan: '',
             alibabaCloudSuggestion: '',
             qwenUser: '',
             qwenModels: [],
+            qwenModelsOther: '',
             qwenScenarios: [],
+            qwenScenariosOther: '',
             qwenDuration: '',
             qwenDepth: '',
             qwenPayment: '',
+            qwenPaymentOther: '',
             qwenRatings: [],
             qwenComparisons: [],
             qwenStrengths: [],
+            qwenStrengthsOther: '',
             qwenWeaknesses: [],
+            qwenWeaknessesOther: '',
             qwenFuturePlan: '',
             qwenSuggestion: ''
           },
