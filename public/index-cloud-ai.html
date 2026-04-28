@@ -120,18 +120,18 @@
           <div v-show="currentSection === 2" class="section">
             <h2 class="section-title">二、身份筛选</h2>
             <div class="form-group">
-              <label class="form-label required">1. 您的类型是？</label>
+              <label class="form-label required">1. 您的用户类型是？（请选择您的身份类型）</label>
               <div class="radio-group"><label v-for="opt in userTypeOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.userType" :value="opt" required> {{ opt }}</label></div>
             </div>
             <div v-if="isBUser" class="subsection">
-              <h3 class="subsection-title">2. 您的具体业务身份（可多选）</h3>
+              <h3 class="subsection-title">2. 您的具体业务身份是？（可多选，根据您的实际业务角色选择）</h3>
               <div class="checkbox-group">
                 <label v-for="opt in businessIdentities" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.businessIdentities" :value="opt"> {{ opt }}</label>
                 <input v-if="form.businessIdentities.includes('其他')" type="text" v-model="form.businessIdentitiesOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
               </div>
             </div>
             <div v-if="isCUser" class="subsection">
-              <h3 class="subsection-title">3. 您使用的阿里巴巴相关产品（可多选）</h3>
+              <h3 class="subsection-title">3. 您使用过哪些阿里巴巴相关产品？（可多选，请选择您使用过的产品）</h3>
               <div class="checkbox-group">
                 <label v-for="prod in alibabaProducts" :key="prod" class="checkbox-option"><input type="checkbox" v-model="form.alibabaProducts" :value="prod"> {{ prod }}</label>
                 <input v-if="form.alibabaProducts.includes('其他')" type="text" v-model="form.alibabaProductsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
