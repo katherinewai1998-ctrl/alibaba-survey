@@ -294,9 +294,9 @@
         progressPercentage() { const total = this.maxSection; return Math.round(((this.currentSection - 1) / (total - 1)) * 100) },
         isBUser() { return this.form.userType?.includes('B 端') || this.form.userType === '两者都是' },
         isCUser() { return this.form.userType?.includes('C 端') || this.form.userType === '两者都是' },
-        isTaobaoSeller() { return this.form.businessIdentities?.includes('网店商家') },
-        isFlashUser() { return this.form.alibabaProducts?.includes('淘宝闪购（消费者）') },
-        isDingtalkUser() { return this.form.businessIdentities?.includes('网上办公用户') }
+        isTaobaoSeller() { return this.form.taobaoSeller === '是' },
+        isFlashUser() { return this.form.flashUser === '是' },
+        isDingtalkUser() { return this.form.dingtalkUser === '是' }
       },
       methods: {
         goToSection(n) { this.currentSection = n },
