@@ -114,7 +114,7 @@
             </div>
           </div>
           <!-- 第三部分：淘天商家专项 -->
-          <div v-show="currentSection === 3 && isTaobaoSeller" class="section">
+          <div v-show="currentSection === 3" class="section">
             <h2 class="section-title">三、淘天商家专项调研</h2>
             <div class="form-group"><label class="form-label required">1. 您是否使用淘宝/天猫开设店铺？</label><div class="radio-group"><label class="radio-option"><input type="radio" v-model="form.taobaoSeller" value="是" required> 是（继续作答）</label><label class="radio-option"><input type="radio" v-model="form.taobaoSeller" value="否" required> 否（跳过本专项）</label></div></div>
             <div v-if="form.taobaoSeller === '是'">
@@ -150,7 +150,7 @@
             </div>
           </div>
           <!-- 第四部分：淘宝闪购专项 -->
-          <div v-show="currentSection === 4 && (isFlashUser || isCUser)" class="section">
+          <div v-show="currentSection === 4" class="section">
             <h2 class="section-title">四、淘宝闪购 C 端消费者专项调研</h2>
             <div class="form-group"><label class="form-label required">1. 您是否使用过外卖业务？</label><div class="radio-group"><label class="radio-option"><input type="radio" v-model="form.flashUser" value="是" required> 是（继续作答）</label><label class="radio-option"><input type="radio" v-model="form.flashUser" value="否" required> 否（跳过本专项）</label></div></div>
             <div v-if="form.flashUser === '是'">
@@ -180,7 +180,7 @@
             </div>
           </div>
           <!-- 第五部分：钉钉办公专项 -->
-          <div v-show="currentSection === 5 && isDingtalkUser" class="section">
+          <div v-show="currentSection === 5" class="section">
             <h2 class="section-title">五、钉钉协同办公专项调研</h2>
             <div class="form-group"><label class="form-label required">1. 您是否使用过任何协同办公工具？</label><div class="radio-group"><label class="radio-option"><input type="radio" v-model="form.dingtalkUser" value="是" required> 是（继续作答）</label><label class="radio-option"><input type="radio" v-model="form.dingtalkUser" value="否" required> 否（跳过本专项）</label></div></div>
             <div v-if="form.dingtalkUser === '是'">
