@@ -287,9 +287,9 @@
       computed: {
         maxSection() {
           // 基于业务身份选择显示步骤，但内容显示基于专项第 1 题选择
-          const hasTaobaoIdentity = this.form.businessIdentities?.includes('网店商家')
-          const hasFlashIdentity = this.form.alibabaProducts?.includes('淘宝闪购（消费者）')
-          const hasDingtalkIdentity = this.form.businessIdentities?.includes('网上办公用户')
+          const hasTaobaoIdentity = this.form.businessIdentities?.some(id => id.includes('网店商家'))
+          const hasFlashIdentity = this.form.alibabaProducts?.some(id => id.includes('淘宝闪购'))
+          const hasDingtalkIdentity = this.form.businessIdentities?.some(id => id.includes('网上办公用户'))
           
           if (hasTaobaoIdentity && hasFlashIdentity && hasDingtalkIdentity) return 5
           if (hasTaobaoIdentity && hasDingtalkIdentity) return 5

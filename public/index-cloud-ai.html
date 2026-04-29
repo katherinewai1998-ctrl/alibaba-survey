@@ -393,8 +393,8 @@
       computed: {
         maxSection() {
           // 基于业务身份选择显示步骤，但内容显示基于专项第 1 题选择
-          const hasCloudIdentity = this.form.businessIdentities?.includes('云服务使用者')
-          const hasQwenIdentity = this.form.businessIdentities?.includes('大模型应用者')
+          const hasCloudIdentity = this.form.businessIdentities?.some(id => id.includes('云服务使用者'))
+          const hasQwenIdentity = this.form.businessIdentities?.some(id => id.includes('大模型应用者'))
           
           if (hasCloudIdentity && hasQwenIdentity) return 4
           if (hasCloudIdentity || hasQwenIdentity) return 3
