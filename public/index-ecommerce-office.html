@@ -302,9 +302,9 @@
         isTaobaoSeller() { return this.form.taobaoSeller === '是' },
         isFlashUser() { return this.form.flashUser === '是' },
         isDingtalkUser() { return this.form.dingtalkUser === '是' },
-        hasTaobaoIdentity() { return this.form.businessIdentities?.includes('网店商家') },
-        hasFlashIdentity() { return this.form.alibabaProducts?.includes('淘宝闪购（消费者）') },
-        hasDingtalkIdentity() { return this.form.businessIdentities?.includes('网上办公用户') }
+        hasTaobaoIdentity() { return this.form.businessIdentities?.some(id => id.includes('网店商家')) },
+        hasFlashIdentity() { return this.form.alibabaProducts?.some(id => id.includes('淘宝闪购')) },
+        hasDingtalkIdentity() { return this.form.businessIdentities?.some(id => id.includes('网上办公用户')) }
       },
       methods: {
         goToSection(n) { this.currentSection = n },

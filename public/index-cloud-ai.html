@@ -408,8 +408,8 @@
         isCUser() { return this.form.userType?.includes('C 端') || this.form.userType === '两者都是' },
         isCloudUser() { return this.form.cloudUser === '是' },
         isQwenUser() { return this.form.qwenUser === '是' },
-        hasCloudIdentity() { return this.form.businessIdentities?.includes('云服务使用者') },
-        hasQwenIdentity() { return this.form.businessIdentities?.includes('大模型应用者') }
+        hasCloudIdentity() { return this.form.businessIdentities?.some(id => id.includes('云服务使用者')) },
+        hasQwenIdentity() { return this.form.businessIdentities?.some(id => id.includes('大模型应用者')) }
       },
       methods: {
         goToSection(n) { this.currentSection = n },
