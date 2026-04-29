@@ -77,9 +77,9 @@
         <div class="step-nav" v-if="!submitted">
           <button type="button" class="step-btn" :class="{ active: currentSection === 1, completed: currentSection > 1 }" @click="goToSection(1)">1. 基础信息</button>
           <button type="button" class="step-btn" :class="{ active: currentSection === 2, completed: currentSection > 2 }" @click="goToSection(2)">2. 身份筛选</button>
-          <button type="button" class="step-btn" :class="{ active: currentSection === 3, completed: currentSection > 3 }" @click="goToSection(3)" v-if="isTaobaoSeller">3. 淘天商家</button>
-          <button type="button" class="step-btn" :class="{ active: currentSection === 4, completed: currentSection > 4 }" @click="goToSection(4)" v-if="isFlashUser || isCUser">4. 淘宝闪购</button>
-          <button type="button" class="step-btn" :class="{ active: currentSection === 5, completed: currentSection > 5 }" @click="goToSection(5)" v-if="isDingtalkUser">5. 钉钉办公</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 3, completed: currentSection > 3 }" @click="goToSection(3)" v-if="hasTaobaoIdentity">3. 淘天商家</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 4, completed: currentSection > 4 }" @click="goToSection(4)" v-if="hasFlashIdentity || isCUser">4. 淘宝闪购</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 5, completed: currentSection > 5 }" @click="goToSection(5)" v-if="hasDingtalkIdentity">5. 钉钉办公</button>
         </div>
         <form @submit.prevent="submitSurvey">
           <!-- 第一部分：基础信息 -->
@@ -286,9 +286,14 @@
       },
       computed: {
         maxSection() {
-          if (this.isTaobaoSeller && this.isFlashUser && this.isDingtalkUser) return 5
-          if (this.isTaobaoSeller && this.isDingtalkUser) return 5
-          if (this.isTaobaoSeller || this.isFlashUser || this.isDingtalkUser) return 4
+          // 基于业务身份选择显示步骤，但内容显示基于专项第 1 题选择
+          const hasTaobaoIdentity = this.form.businessIdentities?.includes('网店商家')
+          const hasFlashIdentity = this.form.alibabaProducts?.includes('淘宝闪购（消费者）')
+          const hasDingtalkIdentity = this.form.businessIdentities?.includes('网上办公用户')
+          
+          if (hasTaobaoIdentity && hasFlashIdentity && hasDingtalkIdentity) return 5
+          if (hasTaobaoIdentity && hasDingtalkIdentity) return 5
+          if (hasTaobaoIdentity || hasFlashIdentity || hasDingtalkIdentity) return 4
           return 2
         },
         progressPercentage() { const total = this.maxSection; return Math.round(((this.currentSection - 1) / (total - 1)) * 100) },
@@ -296,7 +301,10 @@
         isCUser() { return this.form.userType?.includes('C 端') || this.form.userType === '两者都是' },
         isTaobaoSeller() { return this.form.taobaoSeller === '是' },
         isFlashUser() { return this.form.flashUser === '是' },
-        isDingtalkUser() { return this.form.dingtalkUser === '是' }
+        isDingtalkUser() { return this.form.dingtalkUser === '是' },
+        hasTaobaoIdentity() { return this.form.businessIdentities?.includes('网店商家') },
+        hasFlashIdentity() { return this.form.alibabaProducts?.includes('淘宝闪购（消费者）') },
+        hasDingtalkIdentity() { return this.form.businessIdentities?.includes('网上办公用户') }
       },
       methods: {
         goToSection(n) { this.currentSection = n },
