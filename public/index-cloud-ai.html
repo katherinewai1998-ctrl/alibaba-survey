@@ -247,7 +247,7 @@
               <div class="form-group">
                 <label class="form-label required">2. 目前您正在使用的底层大模型有哪些？（可多选）</label>
                 <div class="checkbox-group">
-                  <label v-for="model in qwenModelOptions" :key="model" class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" :value="model" required> {{ model }}</label>
+                  <label v-for="model in qwenModelOptions" :key="model" class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" :value="model"> {{ model }}</label>
                   <input v-if="form.qwenModels.includes('其他')" type="text" v-model="form.qwenModelsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
                 </div>
               </div>
