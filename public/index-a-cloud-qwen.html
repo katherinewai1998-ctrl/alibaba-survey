@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Version: 2026-04-30-1555-SPLIT-A -->
+  <title>阿里云 & 千问大模型调研问卷</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15); margin-bottom: 2rem; }
+    .card-title { font-size: 1.8rem; color: #333; margin-bottom: 1rem; border-bottom: 3px solid #ff6a00; padding-bottom: 0.5rem; }
+    .card-desc { color: #666; margin-bottom: 1.5rem; line-height: 1.6; }
+    .section { display: none; }
+    .section.active { display: block; }
+    .step-nav { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .step-btn { padding: 0.6rem 1.2rem; border: none; border-radius: 6px; background: #e0e0e0; color: #666; cursor: pointer; font-size: 0.9rem; transition: all 0.3s; }
+    .step-btn.active { background: #ff6a00; color: white; }
+    .step-btn.completed { background: #4caf50; color: white; }
+    .step-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label { display: block; font-weight: 600; color: #333; margin-bottom: 0.8rem; font-size: 1rem; }
+    .form-label.required::after { content: ' *'; color: #f44336; }
+    .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 0.6rem; }
+    .radio-option, .checkbox-option { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; padding: 0.5rem; border-radius: 4px; transition: background 0.2s; }
+    .radio-option:hover, .checkbox-option:hover { background: #f5f5f5; }
+    .text-input { width: 100%; padding: 0.6rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.95rem; }
+    .text-input:focus { outline: none; border-color: #ff6a00; box-shadow: 0 0 0 2px rgba(255,106,0,0.1); }
+    .btn-group { display: flex; gap: 1rem; margin-top: 2rem; }
+    .btn { padding: 0.8rem 2rem; border: none; border-radius: 6px; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
+    .btn-primary { background: #ff6a00; color: white; }
+    .btn-primary:hover { background: #e55a00; }
+    .btn-secondary { background: #e0e0e0; color: #666; }
+    .btn-secondary:hover { background: #d0d0d0; }
+    .section-title { font-size: 1.4rem; color: #333; margin: 1.5rem 0 1rem; border-left: 4px solid #ff6a00; padding-left: 1rem; }
+    .rating-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    .rating-table th, .rating-table td { padding: 0.8rem; text-align: left; border-bottom: 1px solid #eee; }
+    .rating-table th { background: #f9f9f9; font-weight: 600; }
+    .success-message { background: #e8f5e9; color: #2e7d32; padding: 1.5rem; border-radius: 8px; text-align: center; margin-top: 2rem; }
+    .success-message h2 { color: #2e7d32; margin-bottom: 1rem; }
+    @media (max-width: 768px) {
+      body { padding: 1rem; }
+      .card { padding: 1.5rem; }
+      .step-nav { flex-direction: column; }
+      .step-btn { width: 100%; text-align: center; }
+      .btn-group { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app" class="container">
+    <div class="card">
+      <h1 class="card-title">阿里云 & 千问大模型调研问卷</h1>
+      <p class="card-desc">
+        尊敬的用户：您好！本次问卷旨在调研您对阿里云服务和千问大模型的使用体验、满意度及需求痛点。
+        本问卷实行匿名制，所有数据仅用于产品优化和业务布局参考，全程预计 10-15 分钟，感谢您的支持与配合！
+      </p>
+
+      <div v-if="submitted" class="success-message">
+        <h2>✅ 提交成功！</h2>
+        <p>感谢您的参与，您的反馈对我们非常重要！</p>
+      </div>
+
+      <div v-else>
+        <div class="step-nav">
+          <button type="button" class="step-btn" :class="{ active: currentSection === 1, completed: currentSection > 1 }" @click="goToSection(1)" :disabled="currentSection !== 1">1. 基础信息</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 2, completed: currentSection > 2 }" @click="goToSection(2)" :disabled="currentSection < 1">2. 身份筛选</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 3, completed: currentSection > 3 }" @click="goToSection(3)" :disabled="currentSection < 2" v-if="hasCloudIdentity">3. 阿里云专项</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 4, completed: currentSection > 4 }" @click="goToSection(4)" :disabled="currentSection < 3" v-if="hasQwenIdentity">4. 千问模型</button>
+        </div>
+
+        <form @submit.prevent="submitForm">
+          <!-- 第一部分：基础信息 -->
+          <div class="section" :class="{ active: currentSection === 1 }">
+            <h2 class="section-title">一、调研者基础信息</h2>
+            
+            <div class="form-group">
+              <label class="form-label required">1. 您的年龄段是？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.age" value="18 岁及以下" required> 18 岁及以下</label>
+                <label class="radio-option"><input type="radio" v-model="form.age" value="19-25 岁" required> 19-25 岁</label>
+                <label class="radio-option"><input type="radio" v-model="form.age" value="26-35 岁" required> 26-35 岁</label>
+                <label class="radio-option"><input type="radio" v-model="form.age" value="36-45 岁" required> 36-45 岁</label>
+                <label class="radio-option"><input type="radio" v-model="form.age" value="46-55 岁" required> 46-55 岁</label>
+                <label class="radio-option"><input type="radio" v-model="form.age" value="56 岁及以上" required> 56 岁及以上</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">2. 您的性别是？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.gender" value="男" required> 男</label>
+                <label class="radio-option"><input type="radio" v-model="form.gender" value="女" required> 女</label>
+                <label class="radio-option"><input type="radio" v-model="form.gender" value="其他" required> 其他</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">3. 您的职业类型是？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="企业职场人员" required> 企业职场人员</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="金融行业从业者" required> 金融行业从业者</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="技术行业从业者" required> 技术行业从业者</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="企业家/企业主" required> 企业家/企业主</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="个体工商户/商家" required> 个体工商户/商家</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="自由职业者" required> 自由职业者</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="学生" required> 学生</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="公职人员" required> 公职人员</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="服务业从业者" required> 服务业从业者</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="教育行业从业者" required> 教育行业从业者</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="医疗行业从业者" required> 医疗行业从业者</label>
+                <label class="radio-option"><input type="radio" v-model="form.occupation" value="其他" required> 其他</label>
+                <input v-if="form.occupation === '其他'" type="text" v-model="form.occupationOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">4. 您的职位是？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.position" value="普通员工" required> 普通员工</label>
+                <label class="radio-option"><input type="radio" v-model="form.position" value="基层管理者" required> 基层管理者</label>
+                <label class="radio-option"><input type="radio" v-model="form.position" value="中层管理者" required> 中层管理者</label>
+                <label class="radio-option"><input type="radio" v-model="form.position" value="高层管理者" required> 高层管理者</label>
+                <label class="radio-option"><input type="radio" v-model="form.position" value="创业者/企业主" required> 创业者/企业主</label>
+                <label class="radio-option"><input type="radio" v-model="form.position" value="学生（无职位）" required> 学生（无职位）</label>
+                <label class="radio-option"><input type="radio" v-model="form.position" value="其他" required> 其他</label>
+                <input v-if="form.position === '其他'" type="text" v-model="form.positionOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">5. 您是否使用过以下大模型产品？</label>
+              <div class="checkbox-group">
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="中国：千问（Qwen，阿里）"> 中国：千问（Qwen，阿里）</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="中国：GLM"> 中国：GLM</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="中国：Kimi"> 中国：Kimi</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="中国：百度文心一言"> 中国：百度文心一言</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="中国：字节跳动火山大模型（豆包）"> 中国：字节跳动火山大模型（豆包）</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="中国：腾讯混元大模型"> 中国：腾讯混元大模型</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="美国：ChatGPT（含 GPT-4）"> 美国：ChatGPT（含 GPT-4）</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="美国：Claude"> 美国：Claude</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="美国：Gemini"> 美国：Gemini</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="未使用过以上任何一种"> 未使用过以上任何一种</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.models" value="其他"> 其他</label>
+                <input v-if="form.models.includes('其他')" type="text" v-model="form.modelsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary" @click="nextSection">下一步</button>
+            </div>
+          </div>
+
+          <!-- 第二部分：身份筛选 -->
+          <div class="section" :class="{ active: currentSection === 2 }">
+            <h2 class="section-title">二、身份筛选</h2>
+
+            <div class="form-group">
+              <label class="form-label required">1. 您的类型是？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.userType" value="B 端用户" required> B 端用户（企业/商家/机构，用于经营、办公等商业用途）</label>
+                <label class="radio-option"><input type="radio" v-model="form.userType" value="C 端用户" required> C 端用户（个人用户，用于消费、日常使用等非商业用途）</label>
+                <label class="radio-option"><input type="radio" v-model="form.userType" value="两者都是" required> 两者都是</label>
+                <label class="radio-option"><input type="radio" v-model="form.userType" value="均不是" required> 均不是</label>
+              </div>
+            </div>
+
+            <div v-if="form.userType === 'B 端用户' || form.userType === '两者都是'" class="form-group">
+              <label class="form-label required">2. 请选择您的具体业务身份</label>
+              <div class="checkbox-group">
+                <label class="checkbox-option"><input type="checkbox" v-model="form.businessIdentities" value="云服务使用者"> 云服务使用者（含阿里云、华为云、腾讯云、字节火山云、亚马逊云、微软云、谷歌云等）</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.businessIdentities" value="大模型应用者"> 大模型应用者（含中国：千问、GLM、Kimi、文心一言、火山大模型（豆包）、混元大模型；美国：ChatGPT、Claude、Gemini 等）</label>
+                <label class="checkbox-option"><input type="checkbox" v-model="form.businessIdentities" value="其他"> 其他</label>
+                <input v-if="form.businessIdentities.includes('其他')" type="text" v-model="form.businessIdentitiesOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary" @click="prevSection">上一步</button>
+              <button type="button" class="btn btn-primary" @click="nextSection">下一步</button>
+            </div>
+          </div>
+
+          <!-- 第三部分：阿里云专项 -->
+          <div class="section" :class="{ active: currentSection === 3 }">
+            <h2 class="section-title">三、阿里云用户专项调研</h2>
+
+            <div class="form-group">
+              <label class="form-label required">1. 您是否使用过任何云服务厂商的服务？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.cloudUser" value="是" required> 是（继续作答本专项）</label>
+                <label class="radio-option"><input type="radio" v-model="form.cloudUser" value="否" required> 否（跳过本专项）</label>
+              </div>
+            </div>
+
+            <div v-if="form.cloudUser === '是'">
+              <div class="form-group">
+                <label class="form-label required">2. 目前您正在使用的云服务厂商有哪些？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="中国：阿里云" required> 中国：阿里云</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="中国：腾讯云" required> 中国：腾讯云</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="中国：华为云" required> 中国：华为云</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="中国：字节跳动火山云" required> 中国：字节跳动火山云</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="美国：亚马逊云（AWS）" required> 美国：亚马逊云（AWS）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="美国：微软云（Azure）" required> 美国：微软云（Azure）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="美国：谷歌云（Google Cloud）" required> 美国：谷歌云（Google Cloud）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" value="其他"> 其他</label>
+                  <input v-if="form.cloudProviders.includes('其他')" type="text" v-model="form.cloudProvidersOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">3. 您使用阿里云的主要业务场景是？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="服务器租赁"> 服务器租赁（云服务器、虚拟主机等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="云存储"> 云存储（数据备份、文件存储等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="云计算"> 云计算（算力支持、分布式计算等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="安全服务"> 安全服务（数据加密、漏洞防护等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="大数据分析"> 大数据分析（数据处理、可视化等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="人工智能服务"> 人工智能服务（模型训练、推理等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="网站/应用部署"> 网站/应用部署</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="政企解决方案落地"> 政企解决方案落地</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="云数据库服务"> 云数据库服务</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" value="其他"> 其他</label>
+                  <input v-if="form.cloudScenarios.includes('其他')" type="text" v-model="form.cloudScenariosOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">4. 您使用阿里云的时长？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.cloudDuration" value="不足 3 个月" required> 不足 3 个月</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudDuration" value="3 个月 -1 年" required> 3 个月 -1 年</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudDuration" value="1-3 年" required> 1-3 年</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudDuration" value="3 年以上" required> 3 年以上</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">5. 您使用阿里云的付费模式是？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.cloudPayment" value="按需付费" required> 按需付费</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudPayment" value="包年包月" required> 包年包月</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudPayment" value="定制化付费" required> 定制化付费</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudPayment" value="其他" required> 其他</label>
+                  <input v-if="form.cloudPayment === '其他'" type="text" v-model="form.cloudPaymentOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">6. 您每月在阿里云上的投入金额大概是？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.cloudInvestment" value="1000 元以下" required> 1000 元以下</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudInvestment" value="1000-5000 元" required> 1000-5000 元</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudInvestment" value="5000-10000 元" required> 5000-10000 元</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudInvestment" value="10000-50000 元" required> 10000-50000 元</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudInvestment" value="50000 元以上" required> 50000 元以上</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">7. 请对阿里云以下维度进行满意度评分（1 分=非常不满意，5 分=非常满意）</label>
+                <table class="rating-table">
+                  <thead><tr><th>维度</th><th>1 分</th><th>2 分</th><th>3 分</th><th>4 分</th><th>5 分</th></tr></thead>
+                  <tbody>
+                    <tr v-for="(item, index) in cloudRatingItems" :key="index">
+                      <td>{{ item }}</td>
+                      <td v-for="score in 5" :key="score"><label><input type="radio" :name="'cloudRating'+index" :value="score" v-model="form.cloudRatings[index]" required></label></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">8. 对比您目前使用的所有云服务厂商，以下各维度中哪个厂商表现最优？</label>
+                <table class="rating-table">
+                  <thead><tr><th>维度</th><th>阿里云</th><th>腾讯云</th><th>华为云</th><th>火山云</th><th>AWS</th><th>Azure</th><th>谷歌云</th></tr></thead>
+                  <tbody>
+                    <tr v-for="(item, index) in cloudComparisonItems" :key="index">
+                      <td>{{ item }}</td>
+                      <td><label><input type="radio" :name="'cloudComp'+index" value="阿里云" v-model="form.cloudComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'cloudComp'+index" value="腾讯云" v-model="form.cloudComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'cloudComp'+index" value="华为云" v-model="form.cloudComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'cloudComp'+index" value="火山云" v-model="form.cloudComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'cloudComp'+index" value="AWS" v-model="form.cloudComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'cloudComp'+index" value="Azure" v-model="form.cloudComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'cloudComp'+index" value="谷歌云" v-model="form.cloudComparisons[index]" required></label></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">9. 您认为阿里云的核心竞争力体现在哪些方面？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="技术成熟，服务稳定性高"> 技术成熟，服务稳定性高</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="产品体系完善，功能全面"> 产品体系完善，功能全面</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="国内节点多，访问速度快"> 国内节点多，访问速度快</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="技术支持专业，响应及时"> 技术支持专业，响应及时</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="与阿里生态产品协同性好"> 与阿里生态产品（钉钉、千问等）协同性好</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="品牌影响力强，市场认可度高"> 品牌影响力强，市场认可度高</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="政企合作经验丰富"> 政企合作经验丰富，解决方案成熟</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="数据安全保障能力强"> 数据安全保障能力强</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="无明显核心竞争力"> 无明显核心竞争力</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudStrengths" value="其他"> 其他</label>
+                  <input v-if="form.cloudStrengths.includes('其他')" type="text" v-model="form.cloudStrengthsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">10. 您认为阿里云的主要短板是什么？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="价格偏高，性价比不足"> 价格偏高，性价比不足</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="部分功能冗余，不够简洁"> 部分功能冗余，不够简洁</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="海外节点少，海外访问体验差"> 海外节点少，海外访问体验差</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="定制化服务门槛高、费用高"> 定制化服务门槛高、费用高</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="中小客户扶持政策不足"> 中小客户扶持政策不足</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="技术文档不够完善"> 技术文档不够完善，上手难度大</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="部分细分场景功能适配不足"> 部分细分场景功能适配不足</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.cloudWeaknesses" value="其他"> 其他</label>
+                  <input v-if="form.cloudWeaknesses.includes('其他')" type="text" v-model="form.cloudWeaknessesOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">11. 未来 1 年内，您对云服务厂商的选择计划是？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.cloudFuturePlan" value="重点使用阿里云" required> 重点使用阿里云，减少其他厂商投入</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudFuturePlan" value="增加其他厂商投入" required> 增加其他厂商投入，降低阿里云依赖</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudFuturePlan" value="保持现有格局" required> 保持现有使用格局不变</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudFuturePlan" value="放弃阿里云" required> 放弃阿里云，转向其他厂商</label>
+                  <label class="radio-option"><input type="radio" v-model="form.cloudFuturePlan" value="新增其他厂商" required> 新增阿里云以外的其他厂商</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">12. 您认为阿里云需要在哪些方面优化才能提升竞争力？</label>
+                <textarea v-model="form.cloudSuggestion" class="text-input" rows="3" placeholder="简答题，可跳过"></textarea>
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary" @click="prevSection">上一步</button>
+              <button type="button" class="btn btn-primary" @click="nextSection">下一步</button>
+            </div>
+          </div>
+
+          <!-- 第四部分：千问模型专项 -->
+          <div class="section" :class="{ active: currentSection === 4 }">
+            <h2 class="section-title">四、千问模型应用者专项调研</h2>
+
+            <div class="form-group">
+              <label class="form-label required">1. 您是否使用过任何底层大模型？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.qwenUser" value="是" required> 是（继续作答本专项）</label>
+                <label class="radio-option"><input type="radio" v-model="form.qwenUser" value="否" required> 否（跳过本专项）</label>
+              </div>
+            </div>
+
+            <div v-if="form.qwenUser === '是'">
+              <div class="form-group">
+                <label class="form-label required">2. 目前您正在使用的底层大模型有哪些？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="国内模型：千问（Qwen，阿里）" required> 国内模型：千问（Qwen，阿里）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="国内模型：GLM" required> 国内模型：GLM</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="国内模型：Kimi" required> 国内模型：Kimi</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="国内模型：百度文心一言" required> 国内模型：百度文心一言</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="国内模型：字节跳动火山大模型（豆包）" required> 国内模型：字节跳动火山大模型（豆包）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="国内模型：腾讯混元大模型" required> 国内模型：腾讯混元大模型</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="海外模型：ChatGPT（含 GPT-4）" required> 海外模型：ChatGPT（含 GPT-4）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="海外模型：Claude" required> 海外模型：Claude</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="海外模型：Gemini" required> 海外模型：Gemini</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenModels" value="其他"> 其他</label>
+                  <input v-if="form.qwenModels.includes('其他')" type="text" v-model="form.qwenModelsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">3. 您使用千问模型的业务场景是？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="企业智能客服"> 企业智能客服（客户咨询、问题解答等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="内容生成"> 内容生成（文案、海报、报告、代码等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="数据分析与处理"> 数据分析与处理（数据整理、趋势分析等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="产品研发辅助"> 产品研发辅助（需求分析、原型设计等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="员工培训"> 员工培训（知识库搭建、答疑等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="智能翻译"> 智能翻译</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="舆情分析"> 舆情分析</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="代码开发与调试"> 代码开发与调试</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenScenarios" value="其他"> 其他</label>
+                  <input v-if="form.qwenScenarios.includes('其他')" type="text" v-model="form.qwenScenariosOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">4. 您使用千问模型的时长？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.qwenDuration" value="不足 3 个月" required> 不足 3 个月</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenDuration" value="3 个月 -1 年" required> 3 个月 -1 年</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenDuration" value="1-3 年" required> 1-3 年</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenDuration" value="3 年以上" required> 3 年以上</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">5. 您对千问模型的应用深度是？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.qwenDepth" value="简单调用" required> 简单调用（直接使用基础功能）</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenDepth" value="中度适配" required> 中度适配（根据业务需求简单调整）</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenDepth" value="深度定制开发" required> 深度定制开发（结合自身业务定制功能）</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">6. 您的付费模式是？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.qwenPayment" value="免费使用" required> 免费使用（基础功能）</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenPayment" value="按次/按量付费" required> 按次/按量付费</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenPayment" value="包年包月付费" required> 包年包月付费</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenPayment" value="定制化付费" required> 定制化付费</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenPayment" value="其他" required> 其他</label>
+                  <input v-if="form.qwenPayment === '其他'" type="text" v-model="form.qwenPaymentOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">7. 请对千问模型以下维度进行满意度评分（1 分=非常不满意，5 分=非常满意）</label>
+                <table class="rating-table">
+                  <thead><tr><th>维度</th><th>1 分</th><th>2 分</th><th>3 分</th><th>4 分</th><th>5 分</th></tr></thead>
+                  <tbody>
+                    <tr v-for="(item, index) in qwenRatingItems" :key="index">
+                      <td>{{ item }}</td>
+                      <td v-for="score in 5" :key="score"><label><input type="radio" :name="'qwenRating'+index" :value="score" v-model="form.qwenRatings[index]" required></label></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">8. 对比您目前使用的所有大模型，以下各维度中哪个模型表现最优？</label>
+                <table class="rating-table">
+                  <thead><tr><th>维度</th><th>千问</th><th>GLM</th><th>Kimi</th><th>文心</th><th>豆包</th><th>混元</th><th>ChatGPT</th><th>Claude</th><th>Gemini</th></tr></thead>
+                  <tbody>
+                    <tr v-for="(item, index) in qwenComparisonItems" :key="index">
+                      <td>{{ item }}</td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="千问" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="GLM" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="Kimi" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="文心" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="豆包" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="混元" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="ChatGPT" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="Claude" v-model="form.qwenComparisons[index]" required></label></td>
+                      <td><label><input type="radio" :name="'qwenComp'+index" value="Gemini" v-model="form.qwenComparisons[index]" required></label></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">9. 您认为千问模型的核心竞争力体现在哪些方面？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="响应速度快"> 响应速度快，无明显延迟</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="生成内容质量高"> 生成内容质量高，准确性强</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="中文语境适配性突出"> 中文语境适配性突出，贴合国内用户需求</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="与阿里生态产品协同性强"> 与阿里生态产品（阿里云、钉钉、支付宝等）协同性强</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="数据安全性高"> 数据安全性高，符合国内数据合规要求</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="定制化能力强"> 定制化能力强，可快速适配不同行业业务需求</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="模型迭代速度快"> 模型迭代速度快，功能更新及时</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="使用成本合理"> 使用成本合理，性价比高于同类海外模型</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="技术支持响应及时"> 技术支持响应及时，专业性强</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="无明显核心竞争力"> 无明显核心竞争力</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" value="其他"> 其他</label>
+                  <input v-if="form.qwenStrengths.includes('其他')" type="text" v-model="form.qwenStrengthsOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">10. 您认为千问模型的主要短板是什么？</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="复杂场景处理能力不及海外模型"> 复杂场景处理能力不及海外模型（ChatGPT、Claude 等）</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="多语言支持能力较弱"> 多语言支持能力较弱，海外语境适配不足</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="部分细分行业专业知识库不够完善"> 部分细分行业（如医疗、金融）的专业知识库不够完善</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="定制化开发门槛较高"> 定制化开发门槛较高，中小客户适配成本高</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="与非阿里系业务系统兼容性较差"> 与部分非阿里系业务系统的兼容性较差</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="生成内容偶尔重复"> 模型偶尔出现生成内容重复、逻辑不连贯的问题</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="付费套餐定价偏高"> 付费套餐定价偏高，缺乏灵活的中小客户专属套餐</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="技术文档不够细致"> 技术文档不够细致，新手上手难度较大</label>
+                  <label class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" value="其他"> 其他</label>
+                  <input v-if="form.qwenWeaknesses.includes('其他')" type="text" v-model="form.qwenWeaknessesOther" class="text-input" placeholder="请补充说明" style="margin-top: 0.8rem;">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required">11. 未来 1 年内，您对底层大模型的选择计划是？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.qwenFuturePlan" value="重点使用千问" required> 重点使用千问（Qwen）模型，减少其他模型投入</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenFuturePlan" value="增加其他模型投入" required> 增加其他模型投入，降低千问（Qwen）模型依赖</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenFuturePlan" value="保持现有格局" required> 保持现有使用格局不变</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenFuturePlan" value="放弃千问" required> 放弃千问（Qwen）模型，转向其他模型</label>
+                  <label class="radio-option"><input type="radio" v-model="form.qwenFuturePlan" value="新增其他模型" required> 新增千问（Qwen）模型以外的其他模型</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">12. 您认为千问模型需要在哪些方面优化才能提升竞争力？</label>
+                <textarea v-model="form.qwenSuggestion" class="text-input" rows="3" placeholder="简答题，可跳过"></textarea>
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button type="button" class="btn btn-secondary" @click="prevSection">上一步</button>
+              <button type="submit" class="btn btn-primary">提交问卷</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    createApp({
+      data() {
+        return {
+          currentSection: 1,
+          submitted: false,
+          form: {
+            submittedAt: new Date().toISOString(),
+            surveyType: 'cloud-ai',
+            age: '', gender: '', occupation: '', occupationOther: '', position: '', positionOther: '', models: [], modelsOther: '',
+            userType: '', businessIdentities: [], businessIdentitiesOther: '',
+            cloudUser: '否', cloudProviders: [], cloudProvidersOther: '', cloudScenarios: [], cloudScenariosOther: '',
+            cloudDuration: '', cloudPayment: '', cloudPaymentOther: '', cloudInvestment: '',
+            cloudRatings: [], cloudComparisons: [], cloudStrengths: [], cloudStrengthsOther: '', cloudWeaknesses: [], cloudWeaknessesOther: '', cloudFuturePlan: '', cloudSuggestion: '',
+            qwenUser: '否', qwenModels: [], qwenModelsOther: '', qwenScenarios: [], qwenScenariosOther: '',
+            qwenDuration: '', qwenDepth: '', qwenPayment: '', qwenPaymentOther: '',
+            qwenRatings: [], qwenComparisons: [], qwenStrengths: [], qwenStrengthsOther: '', qwenWeaknesses: [], qwenWeaknessesOther: '', qwenFuturePlan: '', qwenSuggestion: ''
+          },
+          cloudRatingItems: ['服务稳定性', '响应速度', '技术支持', '价格合理性', '功能实用性', '数据安全性', '产品更新迭代速度', '与自身业务系统的兼容性', '政企解决方案适配性', '售后问题处理效率'],
+          cloudComparisonItems: ['服务稳定性', '价格性价比', '技术支持', '功能贴合度', '数据安全性', '生态协同性', '海外服务能力', '定制化服务能力', '产品更新速度', '兼容性'],
+          qwenRatingItems: ['响应速度', '生成内容质量', '准确性', '定制化能力', '技术支持', '使用成本', '多语言支持能力', '与自身业务系统的兼容性', '模型迭代速度', '数据安全性', '复杂场景处理能力', '中文语境适配性'],
+          qwenComparisonItems: ['响应速度', '内容质量', '准确性', '定制化能力', '性价比', '兼容性', '数据安全性', '中文语境适配性', '复杂场景处理能力', '技术支持']
+        };
+      },
+      computed: {
+        hasCloudIdentity() { return this.form.businessIdentities?.some(id => id.includes('云服务使用者')); },
+        hasQwenIdentity() { return this.form.businessIdentities?.some(id => id.includes('大模型应用者')); },
+        maxSection() {
+          let max = 2;
+          if (this.hasCloudIdentity) max = 3;
+          if (this.hasQwenIdentity) max = 4;
+          return max;
+        }
+      },
+      methods: {
+        goToSection(s) { if (s >= 1 && s <= this.maxSection) this.currentSection = s; },
+        nextSection() { if (this.currentSection < this.maxSection) this.currentSection++; },
+        prevSection() { if (this.currentSection > 1) this.currentSection--; },
+        async submitForm() {
+          try {
+            const response = await fetch('/api/submissions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.form) });
+            const result = await response.json();
+            if (result.success) { this.submitted = true; window.scrollTo(0, 0); }
+            else { alert('提交失败：' + (result.error || '未知错误')); }
+          } catch (error) { alert('提交失败：' + error.message); }
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
