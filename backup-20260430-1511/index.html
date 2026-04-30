@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>阿里巴巴相关业务调研问卷 - 完整版</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .card { background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15); margin-bottom: 2rem; }
+    .card-title { font-size: 1.8rem; color: #333; margin-bottom: 1rem; border-bottom: 3px solid #ff6a00; padding-bottom: 0.5rem; }
+    .intro { line-height: 1.8; color: #555; margin-bottom: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff6a00; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label { display: block; font-weight: 600; margin-bottom: 0.8rem; color: #333; font-size: 1rem; }
+    .required::after { content: ' *'; color: #ff4444; }
+    .radio-group, .checkbox-group { display: flex; flex-direction: column; gap: 0.8rem; }
+    .radio-option, .checkbox-option { display: flex; align-items: center; padding: 0.8rem; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+    .radio-option:hover, .checkbox-option:hover { border-color: #ff6a00; background: #fff5f0; }
+    .radio-option input, .checkbox-option input { margin-right: 0.8rem; width: 18px; height: 18px; cursor: pointer; }
+    .text-input { width: 100%; padding: 0.8rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; }
+    .text-input:focus { outline: none; border-color: #ff6a00; box-shadow: 0 0 0 3px rgba(255,106,0,0.1); }
+    .textarea { width: 100%; padding: 0.8rem 1rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 1rem; min-height: 80px; font-family: inherit; }
+    .rating-group { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem; }
+    .rating-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .rating-label { font-size: 0.85rem; color: #666; font-weight: normal; }
+    .rating-options { display: flex; gap: 0.5rem; }
+    .rating-option { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s; }
+    .rating-option:hover { border-color: #ff6a00; }
+    .rating-option input { display: none; }
+    .rating-option input:checked + span { background: #ff6a00; color: white; border-color: #ff6a00; }
+    .rating-option span { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 4px; }
+    .btn { padding: 1rem 2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+    .btn-primary { background: #ff6a00; color: white; }
+    .btn-primary:hover { background: #e55e00; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,106,0,0.3); }
+    .btn-secondary { background: #6c757d; color: white; margin-right: 1rem; }
+    .progress-bar { background: #e0e0e0; border-radius: 10px; height: 12px; margin-bottom: 1.5rem; overflow: hidden; }
+    .progress-fill { background: linear-gradient(90deg, #ff6a00, #ff8c00); height: 100%; transition: width 0.3s; }
+    .progress-text { text-align: center; color: #666; margin-bottom: 1.5rem; font-weight: 600; }
+    .alert-success { padding: 2rem; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 8px; text-align: center; }
+    .section { margin-bottom: 2rem; }
+    .subsection { margin: 2rem 0; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ff6a00; }
+    .section-title { font-size: 1.4rem; color: #333; margin: 1.5rem 0 1rem; font-weight: 600; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.5rem; }
+    .subsection-title { font-size: 1.15rem; color: #555; margin: 1rem 0; font-weight: 600; }
+    .form-actions { margin-top: 2rem; display: flex; justify-content: space-between; position: sticky; bottom: 0; background: white; padding: 1rem 0; border-top: 2px solid #e0e0e0; }
+    .navbar { background: rgba(255,255,255,0.95); padding: 1rem 2rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+    .nav-brand { font-size: 1.5rem; font-weight: bold; color: #ff6a00; }
+    .nav-links a { text-decoration: none; color: #333; font-weight: 500; padding: 0.5rem 1rem; margin-left: 1rem; border-radius: 6px; transition: all 0.3s; }
+    .nav-links a:hover, .nav-links a.active { background: #ff6a00; color: white; }
+    .tag { display: inline-block; background: #e3f2fd; color: #1976d2; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; margin-right: 0.3rem; margin-bottom: 0.3rem; }
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 8px; text-align: center; }
+    .stat-value { font-size: 2rem; font-weight: bold; }
+    .stat-label { font-size: 0.9rem; opacity: 0.9; }
+    table { width: 100%; border-collapse: collapse; background: white; }
+    th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e0e0e0; }
+    th { background: #f8f9fa; font-weight: 600; position: sticky; top: 0; }
+    .btn-sm { padding: 0.3rem 0.8rem; font-size: 0.85rem; margin-right: 0.3rem; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-view { background: #4caf50; color: white; }
+    .btn-delete { background: #f44336; color: white; }
+    .filter-group { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; align-items: center; }
+    .filter-select { padding: 0.5rem 1rem; border: 2px solid #e0e0e0; border-radius: 6px; }
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+    .modal-content { background: white; border-radius: 12px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto; }
+    .modal-header { padding: 1.5rem 2rem; border-bottom: 2px solid #e0e0e0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: white; }
+    .modal-body { padding: 2rem; }
+    .modal-footer { padding: 1.5rem 2rem; border-top: 2px solid #e0e0e0; display: flex; justify-content: flex-end; gap: 0.5rem; position: sticky; bottom: 0; background: white; }
+    .btn-close { background: none; border: none; font-size: 2rem; cursor: pointer; color: #999; }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .detail-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .detail-label { font-weight: 600; color: #666; font-size: 0.9rem; }
+    .detail-section { margin-bottom: 2rem; }
+    .detail-section h3 { color: #ff6a00; margin-bottom: 1rem; font-size: 1.2rem; border-bottom: 2px solid #e0e0e0; padding-bottom: 0.5rem; }
+    .login-card { max-width: 400px; margin: 4rem auto; text-align: center; }
+    .login-card h2 { margin-bottom: 1.5rem; color: #333; }
+    .login-form { display: flex; flex-direction: column; gap: 1rem; }
+    .error-msg { color: #f44336; font-size: 0.9rem; margin-top: 0.5rem; }
+    .lock-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .step-nav { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .step-btn { padding: 0.5rem 1rem; border: 2px solid #e0e0e0; background: white; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: all 0.3s; }
+    .step-btn.active { border-color: #ff6a00; background: #ff6a00; color: white; }
+    .step-btn.completed { border-color: #4caf50; background: #4caf50; color: white; }
+    .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .comparison-item { background: white; padding: 1rem; border-radius: 6px; border: 1px solid #e0e0e0; }
+    .comparison-label { font-weight: 600; margin-bottom: 0.5rem; color: #333; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="container">
+      <nav class="navbar" v-if="page !== 'login'">
+        <div class="nav-brand">阿里巴巴业务调研</div>
+        <div class="nav-links">
+          <a href="#/" :class="{ active: page === 'survey' }" @click.prevent="page = 'survey'">填写问卷</a>
+          <a href="#/admin" :class="{ active: page === 'admin' }" @click.prevent="checkAdminAccess">后台管理</a>
+          <a v-if="isAdminLoggedIn" href="#" @click.prevent="logout" style="color: #f44336;">退出</a>
+        </div>
+      </nav>
+
+      <!-- 登录页面 -->
+      <div v-if="page === 'login'" class="card login-card">
+        <div class="lock-icon">🔐</div>
+        <h2>后台管理登录</h2>
+        <form @submit.prevent="login" class="login-form">
+          <input type="password" v-model="password" class="text-input" placeholder="请输入管理密码" required autofocus>
+          <p v-if="loginError" class="error-msg">{{ loginError }}</p>
+          <button type="submit" class="btn btn-primary">登录</button>
+          <button type="button" class="btn btn-secondary" @click="page = 'survey'">返回问卷</button>
+        </form>
+      </div>
+
+      <!-- 问卷页面 -->
+      <div v-if="page === 'survey'" class="card">
+        <h1 class="card-title">阿里巴巴相关业务调研问卷</h1>
+        <p class="intro">
+          尊敬的用户：您好！本次问卷旨在调研您对阿里巴巴集团核心产品的使用体验、满意度及需求痛点，
+          同时了解您对各产品对应竞争对手的认知与选择倾向。本问卷实行匿名制，所有数据仅用于产品优化和业务布局参考，
+          全程预计 10-15 分钟，请您根据实际情况如实填写，感谢您的支持与配合！
+        </p>
+
+        <div v-if="!submitted" class="progress-bar">
+          <div class="progress-fill" :style="{ width: progressPercentage + '%' }"></div>
+        </div>
+        <p class="progress-text">完成进度：{{ progressPercentage }}%</p>
+
+        <!-- 步骤导航 -->
+        <div class="step-nav" v-if="!submitted">
+          <button type="button" class="step-btn" :class="{ active: currentSection === 1, completed: currentSection > 1 }" @click="goToSection(1)">1. 基础信息</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 2, completed: currentSection > 2 }" @click="goToSection(2)">2. 身份筛选</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 3, completed: currentSection > 3 }" @click="goToSection(3)" v-if="isBUser">3. 淘天商家</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 4, completed: currentSection > 4 }" @click="goToSection(4)" v-if="isBUser">4. 淘宝闪购</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 5, completed: currentSection > 5 }" @click="goToSection(5)" v-if="isBUser">5. 阿里云</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 6, completed: currentSection > 6 }" @click="goToSection(6)" v-if="isBUser">6. 钉钉</button>
+          <button type="button" class="step-btn" :class="{ active: currentSection === 7, completed: currentSection > 7 }" @click="goToSection(7)" v-if="isBUser">7. 千问模型</button>
+        </div>
+
+        <form @submit.prevent="submitSurvey">
+          <!-- 第一部分：基础信息 -->
+          <div v-show="currentSection === 1" class="section">
+            <h2 class="section-title">一、调研者基础信息（必答）</h2>
+            
+            <div class="form-group">
+              <label class="form-label required">1. 您的年龄段是？</label>
+              <div class="radio-group">
+                <label v-for="opt in ageOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.age" :value="opt" required> {{ opt }}</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">2. 您的性别是？</label>
+              <div class="radio-group">
+                <label v-for="opt in genderOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.gender" :value="opt" required> {{ opt }}</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">3. 您的职业类型是？</label>
+              <div class="radio-group">
+                <label v-for="opt in occupationOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.occupation" :value="opt" required> {{ opt }}</label>
+                <label v-if="form.occupation === '其他'" class="radio-option"><input type="text" v-model="form.occupationOther" class="text-input" placeholder="请补充" style="margin-left: 26px; flex: 1;"></label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">4. 您的职位是？</label>
+              <div class="radio-group">
+                <label v-for="opt in positionOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.position" :value="opt" required> {{ opt }}</label>
+                <label v-if="form.position === '其他'" class="radio-option"><input type="text" v-model="form.positionOther" class="text-input" placeholder="请补充" style="margin-left: 26px; flex: 1;"></label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label required">5. 您是否使用过以下大模型产品？（可多选）</label>
+              <div class="checkbox-group">
+                <label v-for="model in modelOptions" :key="model" class="checkbox-option"><input type="checkbox" v-model="form.models" :value="model"> {{ model }}</label>
+                <label v-if="form.models.includes('其他')" class="checkbox-option"><input type="text" v-model="form.modelsOther" class="text-input" placeholder="请补充" style="margin-left: 26px; flex: 1;"></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 第二部分：身份筛选 -->
+          <div v-show="currentSection === 2" class="section">
+            <h2 class="section-title">二、用户身份筛选（必答）</h2>
+            
+            <div class="form-group">
+              <label class="form-label required">1. 您的用户类型是？</label>
+              <div class="radio-group">
+                <label v-for="opt in userTypeOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.userType" :value="opt" required> {{ opt }}</label>
+              </div>
+            </div>
+
+            <div v-if="isBUser" class="subsection">
+              <h3 class="subsection-title">2. 您的具体业务身份（可多选）</h3>
+              <div class="checkbox-group">
+                <label v-for="opt in businessIdentityOptions" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.businessIdentities" :value="opt"> {{ opt }}</label>
+                <label v-if="form.businessIdentities.includes('其他')" class="checkbox-option"><input type="text" v-model="form.businessIdentityOther" class="text-input" placeholder="请补充" style="margin-left: 26px; flex: 1;"></label>
+              </div>
+            </div>
+
+            <div v-if="isCUser" class="subsection">
+              <h3 class="subsection-title">3. 您使用的阿里巴巴相关产品（可多选）</h3>
+              <div class="checkbox-group">
+                <label v-for="prod in alibabaProducts" :key="prod" class="checkbox-option"><input type="checkbox" v-model="form.alibabaProducts" :value="prod"> {{ prod }}</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 第三部分：淘天商家专项 -->
+          <div v-show="currentSection === 3" class="section">
+            <h2 class="section-title">三、（一）淘天商家专项调研</h2>
+            
+            <div class="form-group">
+              <label class="form-label">1. 您是否使用淘宝/天猫开设店铺？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.taobaoSeller" value="是"> 是</label>
+                <label class="radio-option"><input type="radio" v-model="form.taobaoSeller" value="否"> 否</label>
+              </div>
+            </div>
+
+            <div v-if="form.taobaoSeller === '是'">
+              <div class="form-group"><label class="form-label">2. 店铺开店时长？</label><div class="radio-group"><label v-for="opt in storeAgeOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.storeAge" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">3. 店铺类型？</label><div class="radio-group"><label v-for="opt in storeTypeOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.storeType" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">4. 主营品类？（可多选）</label><div class="checkbox-group"><label v-for="opt in categoryOptions" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.categories" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">5. 最依赖的功能？（可多选）</label><div class="checkbox-group"><label v-for="opt in taobaoFunctions" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.taobaoFunctions" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">6. 正在使用的电商平台？（可多选）</label><div class="checkbox-group"><label v-for="opt in ecommercePlatforms" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.ecommercePlatforms" :value="opt"> {{ opt }}</label></div></div>
+              
+              <div class="form-group">
+                <label class="form-label">7. 满意度评分（1-5 分）</label>
+                <div class="rating-group">
+                  <div class="rating-item" v-for="(item, idx) in taobaoRatingItems" :key="idx">
+                    <label class="rating-label">{{ item }}</label>
+                    <div class="rating-options"><label v-for="n in 5" :key="n" class="rating-option"><input type="radio" :name="'taobaoRating'+idx" v-model="form.taobaoRatings[idx]" :value="n"><span>{{ n }}</span></label></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">8. 对比其他平台（单选）</label>
+                <div class="rating-group">
+                  <div class="rating-item" v-for="(item, idx) in taobaoComparisonItems" :key="idx">
+                    <label class="rating-label">{{ item }}</label>
+                    <div class="rating-options">
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'taobaoComp'+idx" v-model="form.taobaoComparisons[idx]" value="淘宝/天猫更低/更好"><span>淘宝/天猫</span></label>
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'taobaoComp'+idx" v-model="form.taobaoComparisons[idx]" value="其他平台更低/更好"><span>其他平台</span></label>
+                      <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'taobaoComp'+idx" v-model="form.taobaoComparisons[idx]" value="两者差不多"><span>差不多</span></label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group"><label class="form-label">9. 核心竞争力？（可多选）</label><div class="checkbox-group"><label v-for="opt in taobaoStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.taobaoStrengths" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">10. 主要短板？（可多选）</label><div class="checkbox-group"><label v-for="opt in taobaoWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.taobaoWeaknesses" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">11. 未来 1 年计划？</label><div class="radio-group"><label v-for="opt in futurePlanOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.taobaoFuturePlan" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">12. 优化建议（可选）</label><textarea v-model="form.taobaoSuggestion" class="textarea" placeholder="请分享您的宝贵建议..."></textarea></div>
+            </div>
+          </div>
+
+          <!-- 淘宝闪购专项 -->
+          <div v-show="currentSection === 4" class="section">
+            <h2 class="section-title">三、（二）淘宝闪购 C 端消费者专项调研</h2>
+            
+            <div class="form-group">
+              <label class="form-label">1. 您是否使用过淘宝闪购？</label>
+              <div class="radio-group">
+                <label class="radio-option"><input type="radio" v-model="form.taobaoFlash" value="是"> 是</label>
+                <label class="radio-option"><input type="radio" v-model="form.taobaoFlash" value="否"> 否</label>
+              </div>
+            </div>
+
+            <div v-if="form.taobaoFlash === '是'">
+              <div class="form-group"><label class="form-label">2. 使用频率？</label><div class="radio-group"><label v-for="opt in flashFreqOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.flashFreq" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">3. 购买品类？（可多选）</label><div class="checkbox-group"><label v-for="opt in flashCategoryOptions" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.flashCategories" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">4. 使用原因？（可多选）</label><div class="checkbox-group"><label v-for="opt in flashReasonOptions" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.flashReasons" :value="opt"> {{ opt }}</label></div></div>
+              
+              <div class="form-group">
+                <label class="form-label">5. 是否使用过美团外卖？</label>
+                <div class="radio-group">
+                  <label class="radio-option"><input type="radio" v-model="form.meituanUser" value="是"> 是</label>
+                  <label class="radio-option"><input type="radio" v-model="form.meituanUser" value="否"> 否</label>
+                </div>
+              </div>
+
+              <div v-if="form.meituanUser === '是'">
+                <div class="form-group">
+                  <label class="form-label">6. 淘宝闪购 vs 美团外卖 满意度对比</label>
+                  <div class="comparison-grid">
+                    <div class="comparison-item" v-for="(item, idx) in flashComparisonItems" :key="idx">
+                      <div class="comparison-label">{{ item }}</div>
+                      <div>淘宝闪购：<select v-model="form.flashMeituanRatings[idx]" class="text-input"><option value="">-</option><option v-for="n in 5" :value="n">{{ n }}分</option></select></div>
+                      <div style="margin-top:0.5rem">美团外卖：<select v-model="form.meituanRatings[idx]" class="text-input"><option value="">-</option><option v-for="n in 5" :value="n">{{ n }}分</option></select></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">7. 维度对比（单选）</label>
+                  <div class="rating-group">
+                    <div class="rating-item" v-for="(item, idx) in flashComparisonLabels" :key="idx">
+                      <label class="rating-label">{{ item }}</label>
+                      <div class="rating-options">
+                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashComp'+idx" v-model="form.flashComparisons[idx]" value="淘宝闪购更大/更丰富/更快/更有保障/更便捷/更高"><span>淘宝闪购</span></label>
+                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashComp'+idx" v-model="form.flashComparisons[idx]" value="美团外卖更大/更丰富/更快/更有保障/更便捷/更高"><span>美团外卖</span></label>
+                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'flashComp'+idx" v-model="form.flashComparisons[idx]" value="两者差不多"><span>差不多</span></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group"><label class="form-label">8. 整体满意度？</label><div class="radio-group"><label v-for="opt in satisfactionOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.flashSatisfaction" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">9. 核心优势？（可多选）</label><div class="checkbox-group"><label v-for="opt in flashStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.flashStrengths" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">10. 主要问题？（可多选）</label><div class="checkbox-group"><label v-for="opt in flashWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.flashWeaknesses" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">11. 未来计划？</label><div class="radio-group"><label v-for="opt in flashFutureOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.flashFuturePlan" :value="opt"> {{ opt }}</label></div></div>
+              <div class="form-group"><label class="form-label">12. 优化建议（可选）</label><textarea v-model="form.flashSuggestion" class="textarea" placeholder="请分享您的宝贵建议..."></textarea></div>
+            </div>
+          </div>
+
+          <!-- 阿里云专项 -->
+          <div v-show="currentSection === 5" class="section">
+            <h2 class="section-title">三、（三）阿里云用户专项调研</h2>
+            
+            <div class="form-group"><label class="form-label">1. 是否使用过云服务？</label><div class="radio-group"><label class="radio-option"><input type="radio" v-model="form.cloudUser" value="是"> 是</label><label class="radio-option"><input type="radio" v-model="form.cloudUser" value="否"> 否</label></div></div>
+
+            <div v-if="form.cloudUser === '是'">
+              <div class="form-group"><label class="form-label">2. 正在使用的云服务商？（可多选）</label><div class="checkbox-group"><label v-for="p in cloudProviders" :key="p" class="checkbox-option"><input type="checkbox" v-model="form.cloudProviders" :value="p"> {{ p }}</label></div></div>
+              
+              <div v-if="form.cloudProviders.includes('中国：阿里云')">
+                <div class="form-group"><label class="form-label">3. 主要业务场景？（可多选）</label><div class="checkbox-group"><label v-for="s in cloudScenarios" :key="s" class="checkbox-option"><input type="checkbox" v-model="form.cloudScenarios" :value="s"> {{ s }}</label></div></div>
+                <div class="form-group"><label class="form-label">4. 使用时长？</label><div class="radio-group"><label v-for="opt in usageDurationOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.aliyunDuration" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">5. 付费模式？</label><div class="radio-group"><label v-for="opt in paymentModelOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.aliyunPayment" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">6. 每月投入金额？</label><div class="radio-group"><label v-for="opt in spendingOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.aliyunSpending" :value="opt"> {{ opt }}</label></div></div>
+                
+                <div class="form-group">
+                  <label class="form-label">7. 满意度评分（1-5 分）</label>
+                  <div class="rating-group">
+                    <div class="rating-item" v-for="(item, idx) in aliyunRatingItems" :key="idx">
+                      <label class="rating-label">{{ item }}</label>
+                      <div class="rating-options"><label v-for="n in 5" :key="n" class="rating-option"><input type="radio" :name="'aliyunRating'+idx" v-model="form.aliyunRatings[idx]" :value="n"><span>{{ n }}</span></label></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">8. 各维度最优厂商</label>
+                  <div class="comparison-grid">
+                    <div class="comparison-item" v-for="(item, idx) in cloudComparisonItems" :key="idx">
+                      <div class="comparison-label">{{ item }}</div>
+                      <select v-model="form.cloudBest[idx]" class="text-input">
+                        <option value="">请选择</option>
+                        <option v-for="p in cloudProviders" :value="p">{{ p }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group"><label class="form-label">9. 核心竞争力？（可多选）</label><div class="checkbox-group"><label v-for="opt in aliyunStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.aliyunStrengths" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">10. 主要短板？（可多选）</label><div class="checkbox-group"><label v-for="opt in aliyunWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.aliyunWeaknesses" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">11. 未来计划？</label><div class="radio-group"><label v-for="opt in futurePlanOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.aliyunFuturePlan" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">12. 优化建议（可选）</label><textarea v-model="form.aliyunSuggestion" class="textarea" placeholder="请分享您的宝贵建议..."></textarea></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 钉钉专项 -->
+          <div v-show="currentSection === 6" class="section">
+            <h2 class="section-title">三、（四）钉钉用户专项调研</h2>
+            
+            <div class="form-group"><label class="form-label">1. 是否使用过协同办公工具？</label><div class="radio-group"><label class="radio-option"><input type="radio" v-model="form.officeToolUser" value="是"> 是</label><label class="radio-option"><input type="radio" v-model="form.officeToolUser" value="否"> 否</label></div></div>
+
+            <div v-if="form.officeToolUser === '是'">
+              <div class="form-group"><label class="form-label">2. 正在使用的办公工具？（可多选）</label><div class="checkbox-group"><label v-for="t in officeTools" :key="t" class="checkbox-option"><input type="checkbox" v-model="form.officeTools" :value="t"> {{ t }}</label></div></div>
+              
+              <div v-if="form.officeTools.includes('钉钉')">
+                <div class="form-group"><label class="form-label">3. 企业规模？</label><div class="radio-group"><label v-for="opt in companySizeOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.companySize" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">4. 核心使用场景？（可多选）</label><div class="checkbox-group"><label v-for="s in dingtalkScenarios" :key="s" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkScenarios" :value="s"> {{ s }}</label></div></div>
+                <div class="form-group"><label class="form-label">5. 使用频率？</label><div class="radio-group"><label v-for="opt in usageFreqOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.dingtalkFreq" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">6. 付费情况？</label><div class="radio-group"><label v-for="opt in paymentOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.dingtalkPayment" :value="opt"> {{ opt }}</label></div></div>
+                
+                <div class="form-group">
+                  <label class="form-label">7. 满意度评分（1-5 分）</label>
+                  <div class="rating-group">
+                    <div class="rating-item" v-for="(item, idx) in dingtalkRatingItems" :key="idx">
+                      <label class="rating-label">{{ item }}</label>
+                      <div class="rating-options"><label v-for="n in 5" :key="n" class="rating-option"><input type="radio" :name="'dingtalkRating'+idx" v-model="form.dingtalkRatings[idx]" :value="n"><span>{{ n }}</span></label></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">8. 对比其他工具（单选）</label>
+                  <div class="rating-group">
+                    <div class="rating-item" v-for="(item, idx) in dingtalkComparisonItems" :key="idx">
+                      <label class="rating-label">{{ item }}</label>
+                      <div class="rating-options">
+                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="钉钉更全/更便捷/更高/更好"><span>钉钉</span></label>
+                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="其他工具更全/更便捷/更高/更好"><span>其他工具</span></label>
+                        <label class="rating-option" style="width:auto;padding:0 0.5rem"><input type="radio" :name="'dingtalkComp'+idx" v-model="form.dingtalkComparisons[idx]" value="两者差不多"><span>差不多</span></label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group"><label class="form-label">9. 核心竞争力？（可多选）</label><div class="checkbox-group"><label v-for="opt in dingtalkStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkStrengths" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">10. 主要短板？（可多选）</label><div class="checkbox-group"><label v-for="opt in dingtalkWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.dingtalkWeaknesses" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">11. 未来计划？</label><div class="radio-group"><label v-for="opt in futurePlanOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.dingtalkFuturePlan" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">12. 优化建议（可选）</label><textarea v-model="form.dingtalkSuggestion" class="textarea" placeholder="请分享您的宝贵建议..."></textarea></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 千问模型专项 -->
+          <div v-show="currentSection === 7" class="section">
+            <h2 class="section-title">三、（五）千问模型应用者专项调研</h2>
+            
+            <div class="form-group"><label class="form-label">1. 是否使用过大模型？</label><div class="radio-group"><label class="radio-option"><input type="radio" v-model="form.llmUser" value="是"> 是</label><label class="radio-option"><input type="radio" v-model="form.llmUser" value="否"> 否</label></div></div>
+
+            <div v-if="form.llmUser === '是'">
+              <div class="form-group"><label class="form-label">2. 正在使用的大模型？（可多选）</label><div class="checkbox-group"><label v-for="m in llmModels" :key="m" class="checkbox-option"><input type="checkbox" v-model="form.llmModels" :value="m"> {{ m }}</label></div></div>
+              
+              <div v-if="form.llmModels.includes('国内模型：千问（Qwen，阿里）')">
+                <div class="form-group"><label class="form-label">3. 业务场景？（可多选）</label><div class="checkbox-group"><label v-for="s in llmScenarios" :key="s" class="checkbox-option"><input type="checkbox" v-model="form.llmScenarios" :value="s"> {{ s }}</label></div></div>
+                <div class="form-group"><label class="form-label">4. 使用时长？</label><div class="radio-group"><label v-for="opt in usageDurationOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.qwenDuration" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">5. 应用深度？</label><div class="radio-group"><label v-for="opt in llmDepthOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.qwenDepth" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">6. 付费模式？</label><div class="radio-group"><label v-for="opt in llmPaymentOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.qwenPayment" :value="opt"> {{ opt }}</label></div></div>
+                
+                <div class="form-group">
+                  <label class="form-label">7. 满意度评分（1-5 分）</label>
+                  <div class="rating-group">
+                    <div class="rating-item" v-for="(item, idx) in qwenRatingItems" :key="idx">
+                      <label class="rating-label">{{ item }}</label>
+                      <div class="rating-options"><label v-for="n in 5" :key="n" class="rating-option"><input type="radio" :name="'qwenRating'+idx" v-model="form.qwenRatings[idx]" :value="n"><span>{{ n }}</span></label></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">8. 各维度最优模型</label>
+                  <div class="comparison-grid">
+                    <div class="comparison-item" v-for="(item, idx) in qwenComparisonItems" :key="idx">
+                      <div class="comparison-label">{{ item }}</div>
+                      <select v-model="form.qwenBest[idx]" class="text-input">
+                        <option value="">请选择</option>
+                        <option v-for="m in llmModelShortOptions" :value="m">{{ m }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group"><label class="form-label">9. 核心竞争力？（可多选）</label><div class="checkbox-group"><label v-for="opt in qwenStrengths" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.qwenStrengths" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">10. 主要短板？（可多选）</label><div class="checkbox-group"><label v-for="opt in qwenWeaknesses" :key="opt" class="checkbox-option"><input type="checkbox" v-model="form.qwenWeaknesses" :value="opt"> {{ opt }}</label></div></div>
+                <div class="form-group"><label class="form-label">11. 未来计划？</label><div class="radio-group"><label v-for="opt in futurePlanOptions" :key="opt" class="radio-option"><input type="radio" v-model="form.qwenFuturePlan" :value="opt"> {{ opt }}</label></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" @click="prevSection" v-if="currentSection > 1">上一页</button>
+            <button type="button" class="btn btn-primary" @click="nextSection" v-if="currentSection < maxSection">下一页</button>
+            <button type="submit" class="btn btn-primary" v-if="currentSection === maxSection">提交问卷</button>
+          </div>
+        </form>
+      </div>
+
+      <div v-if="submitted" class="card">
+        <div class="alert-success">
+          <h2>✅ 提交成功！</h2>
+          <p>感谢您的参与，您的反馈对我们非常重要！</p>
+        </div>
+      </div>
+
+      <!-- 管理页面 -->
+      <div v-if="page === 'admin' && isAdminLoggedIn" class="card">
+        <h1 class="card-title">后台数据管理</h1>
+        <div class="filter-group">
+          <select v-model="filter.userType" class="filter-select"><option value="">所有用户类型</option><option value="B 端">B 端用户</option><option value="C 端">C 端用户</option></select>
+          <button @click="loadData" class="btn btn-primary btn-sm">刷新</button>
+          <button @click="exportCSV" class="btn btn-primary btn-sm">导出 CSV</button>
+        </div>
+        <div class="stats" v-if="submissions.length > 0">
+          <div class="stat-card"><div class="stat-value">{{ submissions.length }}</div><div class="stat-label">总提交数</div></div>
+          <div class="stat-card"><div class="stat-value">{{ bUserCount }}</div><div class="stat-label">B 端用户</div></div>
+          <div class="stat-card"><div class="stat-value">{{ cUserCount }}</div><div class="stat-label">C 端用户</div></div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr><th>提交时间</th><th>年龄段</th><th>性别</th><th>职业</th><th>用户类型</th><th>大模型</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr v-for="item in filteredSubmissions" :key="item.id">
+                <td>{{ formatDate(item.submittedAt) }}</td>
+                <td>{{ item.age }}</td><td>{{ item.gender }}</td><td>{{ truncate(item.occupation, 20) }}</td><td>{{ truncate(item.userType, 15) }}</td>
+                <td><span class="tag" v-for="m in item.models?.slice(0,2)" :key="m">{{ m }}</span><span v-if="item.models?.length > 2" class="tag">+{{ item.models.length - 2 }}</span></td>
+                <td><button @click="viewDetail(item)" class="btn-sm btn-view">详情</button><button @click="deleteItem(item.id)" class="btn-sm btn-delete">删除</button></td>
+              </tr>
+              <tr v-if="filteredSubmissions.length === 0"><td colspan="7" style="text-align:center;padding:3rem;color:#999">暂无数据</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 详情弹窗 -->
+      <div v-if="showDetail" class="modal-overlay" @click="closeDetail">
+        <div class="modal-content" @click.stop>
+          <div class="modal-header"><h2>问卷详情</h2><button @click="closeDetail" class="btn-close">×</button></div>
+          <div class="modal-body" v-if="selectedItem">
+            <div class="detail-section"><h3>基础信息</h3><div class="detail-grid">
+              <div class="detail-item"><span class="detail-label">提交时间:</span><span>{{ formatDate(selectedItem.submittedAt, true) }}</span></div>
+              <div class="detail-item"><span class="detail-label">年龄段:</span><span>{{ selectedItem.age }}</span></div>
+              <div class="detail-item"><span class="detail-label">性别:</span><span>{{ selectedItem.gender }}</span></div>
+              <div class="detail-item"><span class="detail-label">职业:</span><span>{{ selectedItem.occupation }}</span></div>
+              <div class="detail-item"><span class="detail-label">职位:</span><span>{{ selectedItem.position }}</span></div>
+              <div class="detail-item"><span class="detail-label">用户类型:</span><span>{{ selectedItem.userType }}</span></div>
+            </div></div>
+            <div class="detail-section" v-if="selectedItem.models?.length"><h3>大模型使用</h3><div><span class="tag" v-for="m in selectedItem.models" :key="m">{{ m }}</span></div></div>
+            <div class="detail-section" v-if="selectedItem.businessIdentities?.length"><h3>业务身份</h3><div><span class="tag" v-for="b in selectedItem.businessIdentities" :key="b">{{ b }}</span></div></div>
+            <div class="detail-section" v-if="selectedItem.alibabaProducts?.length"><h3>阿里产品</h3><div><span class="tag" v-for="p in selectedItem.alibabaProducts" :key="p">{{ p }}</span></div></div>
+          </div>
+          <div class="modal-footer"><button @click="closeDetail" class="btn btn-secondary">关闭</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script>
+    const { createApp } = Vue
+    createApp({
+      data() {
+        return {
+          page: 'survey', currentSection: 1, maxSection: 7, submitted: false, submissions: [], selectedItem: null, showDetail: false, filter: { userType: '' },
+          isAdminLoggedIn: false, password: '', loginError: '', sessionId: '',
+          form: {
+            age: '', gender: '', occupation: '', occupationOther: '', position: '', positionOther: '', models: [], modelsOther: '',
+            userType: '', businessIdentities: [], businessIdentityOther: '', alibabaProducts: [],
+            taobaoSeller: '', storeAge: '', storeType: '', categories: [], taobaoFunctions: [], ecommercePlatforms: [], taobaoRatings: [], taobaoComparisons: [], taobaoStrengths: [], taobaoWeaknesses: [], taobaoFuturePlan: '', taobaoSuggestion: '',
+            taobaoFlash: '', flashFreq: '', flashCategories: [], flashReasons: [], meituanUser: '', flashMeituanRatings: [], meituanRatings: [], flashComparisons: [], flashSatisfaction: '', flashStrengths: [], flashWeaknesses: [], flashFuturePlan: '', flashSuggestion: '',
+            cloudUser: '', cloudProviders: [], cloudScenarios: [], aliyunDuration: '', aliyunPayment: '', aliyunSpending: '', aliyunRatings: [], cloudBest: [], aliyunStrengths: [], aliyunWeaknesses: [], aliyunFuturePlan: '', aliyunSuggestion: '',
+            officeToolUser: '', officeTools: [], companySize: '', dingtalkScenarios: [], dingtalkFreq: '', dingtalkPayment: '', dingtalkRatings: [], dingtalkComparisons: [], dingtalkStrengths: [], dingtalkWeaknesses: [], dingtalkFuturePlan: '', dingtalkSuggestion: '',
+            llmUser: '', llmModels: [], llmScenarios: [], qwenDuration: '', qwenDepth: '', qwenPayment: '', qwenRatings: [], qwenBest: [], qwenStrengths: [], qwenWeaknesses: [], qwenFuturePlan: '',
+            submittedAt: ''
+          },
+          ageOptions: ['18 岁及以下', '19-25 岁', '26-35 岁', '36-45 岁', '46-55 岁', '56 岁及以上'],
+          genderOptions: ['男', '女', '其他'],
+          occupationOptions: ['企业职场人员（普通职员/基层/中层/高层管理者）', '金融行业从业者（银行、证券、保险、基金等）', '技术行业从业者（开发、测试、运维、算法等）', '企业家/企业主', '个体工商户/商家', '自由职业者', '学生', '公职人员', '服务业从业者（餐饮、物流、文旅等）', '教育行业从业者（教师、教研等）', '医疗行业从业者（医生、护士等）', '其他'],
+          positionOptions: ['普通员工', '基层管理者', '中层管理者', '高层管理者', '创业者/企业主', '学生（无职位）', '其他'],
+          modelOptions: ['中国：千问（Qwen，阿里）', '中国：GLM', '中国：Kimi', '中国：百度文心一言', '中国：字节跳动火山大模型', '中国：腾讯混元大模型', '美国：ChatGPT（含 GPT-4）', '美国：Claude', '美国：Gemini', '未使用过以上任何一种', '其他'],
+          userTypeOptions: ['B 端用户（企业/商家/机构，用于经营、办公等商业用途）', 'C 端用户（个人用户，用于消费、日常使用等非商业用途）', '两者都是'],
+          businessIdentityOptions: ['网店商家（含淘天、京东、拼多多、抖音电商等平台开店商家）', '云服务使用者（含阿里云、华为云、腾讯云、字节火山云、亚马逊云、微软云、谷歌云等）', '网上办公用户（含钉钉、飞书、企业微信等协同办公工具使用者）', '大模型应用者（含中国：千问、GLM、Kimi、文心一言、火山大模型、混元大模型；美国：ChatGPT、Claude、Gemini 等）', '其他'],
+          alibabaProducts: ['淘宝/天猫（消费者）', '淘宝/天猫外卖（消费者）', '千问 APP（个人使用，原 Qwen APP）', '支付宝（含支付、理财、生活服务等）', '飞猪（旅游、出行、酒店预订）', '优酷（视频观看）', '高德地图（导航、出行服务）', '盒马鲜生（线上 + 线下购物）', '菜鸟裹裹（快递查询、寄件）', '阿里健康（医疗咨询、药品购买）', '未使用任何阿里巴巴相关产品'],
+          storeAgeOptions: ['不足 6 个月', '6 个月 -1 年', '1-3 年', '3-5 年', '5 年以上'],
+          storeTypeOptions: ['淘宝个人店', '淘宝企业店', '天猫旗舰店', '天猫专卖店', '天猫专营店', '其他'],
+          categoryOptions: ['服饰美妆（服装、鞋帽、化妆品等）', '家电数码（手机、电脑、家电等）', '食品生鲜（零食、粮油、生鲜果蔬等）', '家居建材（家具、家电、装修材料等）', '母婴用品（奶粉、玩具、童装等）', '图书文具（书籍、文具、办公用品等）', '运动户外（运动装备、户外用品等）', '其他'],
+          taobaoFunctions: ['店铺管理（商品上下架、订单管理等）', '流量推广（直通车、钻展等）', '客服工具（自动回复、售后处理等）', '售后保障体系', '数据分析（店铺流量、销量分析等）', '供应链支持', '营销活动工具（优惠券、秒杀等）', '品牌扶持服务'],
+          ecommercePlatforms: ['淘宝', '天猫', '京东', '拼多多', '抖音电商', '快手电商'],
+          taobaoRatingItems: ['入驻门槛', '运营成本', '流量分配', '规则透明度', '客服支持', '售后体系', '营销工具实用性', '数据分析精准度', '品牌曝光支持', '供应链适配性'],
+          taobaoComparisonItems: ['入驻门槛', '运营成本', '流量资源', '规则合理性', '客服响应速度', '售后效率', '营销效果'],
+          taobaoStrengths: ['用户基数大，流量稳定', '品牌影响力强，消费者信任度高', '功能完善，运营工具齐全', '供应链体系成熟', '售后保障完善', '与阿里生态产品（支付宝、钉钉等）协同性好', '无明显核心竞争力'],
+          taobaoWeaknesses: ['运营成本偏高（佣金、推广费等）', '中小商家流量扶持不足', '规则更新频繁，适配成本高', '竞争对手冲击大，优势弱化', '部分功能冗余，操作复杂'],
+          flashFreqOptions: ['几乎每天都用', '每周 3-5 次', '每周 1-2 次', '每月 1-2 次', '偶尔使用（低于每月 1 次）'],
+          flashCategoryOptions: ['服饰美妆（服装、鞋帽、化妆品等）', '家电数码（手机、电脑、小家电等）', '食品生鲜（零食、粮油、生鲜果蔬等）', '家居百货（家具、厨具、日用品等）', '母婴用品（奶粉、玩具、童装等）', '运动户外（运动装备、户外用品等）', '图书文具（书籍、文具、办公用品等）'],
+          flashReasonOptions: ['商品价格优惠，限时折扣力度大', '商品种类丰富，选择范围广', '配送速度快，能实现即时/快速送达', '平台口碑好，商品质量有保障', '操作便捷，容易找到心仪商品', '与淘宝/天猫账号互通，无需额外注册', '售后保障完善，退换货方便', '朋友/家人推荐'],
+          flashComparisonItems: ['商品价格', '商品种类', '配送速度', '商品质量', '操作便捷性', '售后体验', '优惠活动丰富度', '支付便捷性'],
+          flashComparisonLabels: ['商品价格优惠力度', '商品种类丰富度', '配送速度', '商品质量保障', '操作便捷性', '售后处理效率'],
+          satisfactionOptions: ['非常满意', '比较满意', '一般', '不太满意', '非常不满意'],
+          flashStrengths: ['价格优惠，限时秒杀性价比高', '商品种类全，能满足多样化需求', '与淘宝/天猫生态互通，使用方便', '商品质量有保障，不易踩雷', '配送及时，能快速收到商品', '售后完善，退换货无压力', '对比美团外卖，商品更具特色', '无明显核心优势'],
+          flashWeaknesses: ['商品价格虽低，但质量参差不齐，不如美团外卖把控严格', '配送速度较慢，不及美团外卖即时配送效率', '优惠活动套路多，实际优惠力度小', '商品种类虽多，但热门商品经常缺货', '操作界面复杂，不易找到闪购入口', '售后响应不及时，处理效率低于美团外卖', '配送范围有限，部分区域无法送达'],
+          flashFutureOptions: ['增加使用频率，减少美团外卖（若使用）的同类商品购买', '减少使用频率，更多选择美团外卖（若使用）购买同类商品', '保持现有使用频率不变', '不再使用淘宝闪购，转向美团外卖（若使用）', '首次尝试使用淘宝闪购（若目前未使用）'],
+          cloudProviders: ['中国：阿里云', '中国：腾讯云', '中国：华为云', '中国：字节跳动火山云', '美国：亚马逊云（AWS）', '美国：微软云（Azure）', '美国：谷歌云（Google Cloud）'],
+          cloudScenarios: ['服务器租赁（云服务器、虚拟主机等）', '云存储（数据备份、文件存储等）', '云计算（算力支持、分布式计算等）', '安全服务（数据加密、漏洞防护等）', '大数据分析（数据处理、可视化等）', '人工智能服务（模型训练、推理等）', '网站/应用部署', '政企解决方案落地', '云数据库服务'],
+          usageDurationOptions: ['不足 3 个月', '3 个月 -1 年', '1-3 年', '3 年以上'],
+          paymentModelOptions: ['按需付费', '包年包月', '定制化付费', '其他'],
+          spendingOptions: ['1000 元以下', '1000-5000 元', '5000-10000 元', '10000-50000 元', '50000 元以上'],
+          aliyunRatingItems: ['服务稳定性（无宕机、卡顿）', '响应速度（算力、访问速度）', '技术支持（响应速度、专业性）', '价格合理性（性价比）', '功能实用性（贴合业务需求）', '数据安全性（加密、备份、防泄露）', '产品更新迭代速度', '与自身业务系统的兼容性', '政企解决方案适配性', '售后问题处理效率'],
+          cloudComparisonItems: ['服务稳定性', '价格性价比', '技术支持', '功能贴合度', '数据安全性', '生态协同性', '海外服务能力', '定制化服务能力', '产品更新速度', '兼容性'],
+          aliyunStrengths: ['技术成熟，服务稳定性高', '产品体系完善，功能全面', '国内节点多，访问速度快', '技术支持专业，响应及时', '与阿里生态产品（钉钉、千问等）协同性好', '品牌影响力强，市场认可度高', '政企合作经验丰富，解决方案成熟', '数据安全保障能力强', '无明显核心竞争力'],
+          aliyunWeaknesses: ['价格偏高，性价比不足', '部分功能冗余，不够简洁', '海外节点少，海外访问体验差', '定制化服务门槛高、费用高', '中小客户扶持政策不足', '技术文档不够完善，上手难度大', '部分细分场景功能适配不足'],
+          officeTools: ['钉钉', '企业微信', '飞书', '石墨文档', '腾讯文档', '金山文档'],
+          companySizeOptions: ['小型企业（1-50 人）', '中型企业（51-200 人）', '大型企业（201-1000 人）', '集团企业（1000 人以上）'],
+          dingtalkScenarios: ['考勤管理（打卡、请假、排班等）', '团队沟通（即时消息、群聊等）', '流程审批（请假、报销、采购等）', '文档协作（共同编辑、分享等）', '客户管理（客户信息、跟进记录等）', '会议协同（线上会议、会议纪要等）', '任务管理（任务分配、进度跟踪等）', '薪酬管理（工资核算、发放记录等）', '供应链协同（与供应商、合作伙伴对接）', '企业培训（线上课程、考试等）'],
+          usageFreqOptions: ['每天多次', '每天 1 次', '每周 3-5 次', '每周 1-2 次', '每月 1-2 次'],
+          paymentOptions: ['仅使用免费功能', '使用基础付费套餐', '使用高级付费套餐', '定制化付费服务'],
+          dingtalkRatingItems: ['功能完整性', '操作便捷性', '稳定性（无卡顿、崩溃）', '协同效率（跨部门、跨地域协作）', '安全性能（数据保密、权限管理）', '付费功能性价比', '与其他工具的兼容性', '更新迭代速度（功能优化、bug 修复）', '员工上手难度', '客户服务响应速度', '与阿里生态产品协同性', '定制化适配能力'],
+          dingtalkComparisonItems: ['功能完整性', '操作便捷性', '协同效率', '稳定性', '性价比', '兼容性', '员工接受度', '定制化能力', '生态协同性'],
+          dingtalkStrengths: ['功能全面，覆盖办公全场景', '操作简单，员工上手快', '稳定性强，不易出现故障', '与阿里生态产品（支付宝、阿里云等）协同性好', '客户群体广，企业适配性强', '免费功能满足中小企业需求', '定制化能力强，可适配不同行业需求', '安全性能突出，数据保护到位', '无明显核心竞争力'],
+          dingtalkWeaknesses: ['部分功能冗余，不够简洁', '付费功能价格偏高', '个性化定制能力不足', '与部分非阿里系工具兼容性差', '大型企业深度适配能力不足', '部分功能实用性不强，冗余度高', '数据导出不够便捷', '海外协同能力较弱'],
+          llmModels: ['国内模型：千问（Qwen，阿里）', '国内模型：GLM', '国内模型：Kimi', '国内模型：百度文心一言', '国内模型：字节跳动火山大模型', '国内模型：腾讯混元大模型', '海外模型：ChatGPT（含 GPT-4）', '海外模型：Claude', '海外模型：Gemini'],
+          llmModelShortOptions: ['千问（Qwen）', 'GLM', 'Kimi', '文心一言', '火山大模型', '混元大模型', 'ChatGPT（含 GPT-4）', 'Claude', 'Gemini'],
+          llmScenarios: ['企业智能客服（客户咨询、问题解答等）', '内容生成（文案、海报、报告、代码等）', '数据分析与处理（数据整理、趋势分析等）', '产品研发辅助（需求分析、原型设计等）', '员工培训（知识库搭建、答疑等）', '智能翻译', '舆情分析', '代码开发与调试'],
+          llmDepthOptions: ['简单调用（直接使用基础功能）', '中度适配（根据业务需求简单调整）', '深度定制开发（结合自身业务定制功能）'],
+          llmPaymentOptions: ['免费使用（基础功能）', '按次/按量付费', '包年包月付费', '定制化付费', '其他'],
+          qwenRatingItems: ['响应速度', '生成内容质量', '准确性', '定制化能力', '技术支持', '使用成本', '多语言支持能力', '与自身业务系统的兼容性', '模型迭代速度', '数据安全性（训练数据、生成内容保密）', '复杂场景处理能力', '中文语境适配性'],
+          qwenComparisonItems: ['响应速度', '内容质量', '准确性', '定制化能力', '性价比', '兼容性', '数据安全性', '中文语境适配性', '复杂场景处理能力', '技术支持'],
+          qwenStrengths: ['响应速度快，无明显延迟', '生成内容质量高，准确性强', '中文语境适配性突出，贴合国内用户需求', '与阿里生态产品（阿里云、钉钉、支付宝等）协同性强，适配业务场景更广泛', '数据安全性高，符合国内数据合规要求', '定制化能力强，可快速适配不同行业业务需求', '模型迭代速度快，功能更新及时', '使用成本合理，性价比高于同类海外模型', '技术支持响应及时，专业性强', '无明显核心竞争力'],
+          qwenWeaknesses: ['复杂场景（如深度代码开发、专业领域研究）处理能力不及海外模型（ChatGPT、Claude 等）', '多语言支持能力较弱，海外语境适配不足', '部分细分行业（如医疗、金融）的专业知识库不够完善', '定制化开发门槛较高，中小客户适配成本高', '与部分非阿里系业务系统的兼容性较差', '模型偶尔出现生成内容重复、逻辑不连贯的问题', '付费套餐定价偏高，缺乏灵活的中小客户专属套餐', '技术文档不够细致，新手上手难度较大'],
+          futurePlanOptions: ['重点使用，减少其他平台投入', '增加其他平台投入，降低依赖', '保持现有使用格局不变', '放弃，转向其他平台', '新增其他平台']
+        }
+      },
+      computed: {
+        progressPercentage() { return Math.round((this.currentSection / this.maxSection) * 100) },
+        isBUser() { return this.form.userType?.includes('B 端') || this.form.userType === '两者都是' },
+        isCUser() { return this.form.userType?.includes('C 端') || this.form.userType === '两者都是' },
+        filteredSubmissions() { if (!this.filter.userType) return this.submissions; return this.submissions.filter(s => s.userType?.includes(this.filter.userType)) },
+        bUserCount() { return this.submissions.filter(s => s.userType?.includes('B 端') || s.userType === '两者都是').length },
+        cUserCount() { return this.submissions.filter(s => s.userType?.includes('C 端') || s.userType === '两者都是').length }
+      },
+      mounted() {
+        const savedSession = localStorage.getItem('adminSessionId')
+        if (savedSession) {
+          this.sessionId = savedSession
+          this.verifySession()
+        }
+        if (window.location.hash === '#/admin') this.checkAdminAccess()
+        setInterval(this.verifySession, 60000) // 每分钟验证一次会话
+      },
+      methods: {
+        async verifySession() {
+          if (!this.sessionId) return
+          try {
+            const res = await fetch('/api/verify', { headers: { 'X-Session-Id': this.sessionId } })
+            if (!res.ok) {
+              this.sessionId = ''
+              this.isAdminLoggedIn = false
+              localStorage.removeItem('adminSessionId')
+            }
+          } catch (e) { console.error('验证会话失败:', e) }
+        },
+        checkAdminAccess() { this.sessionId ? (this.page = 'admin', this.loadData()) : this.page = 'login' },
+        async login() {
+          try {
+            const res = await fetch('/api/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ password: this.password })
+            })
+            const data = await res.json()
+            if (res.ok) {
+              this.sessionId = data.sessionId
+              this.isAdminLoggedIn = true
+              this.loginError = ''
+              localStorage.setItem('adminSessionId', data.sessionId)
+              this.page = 'admin'
+              this.password = ''
+              this.loadData()
+            } else {
+              this.loginError = data.error || '登录失败'
+            }
+          } catch (e) { this.loginError = '登录失败：' + e.message }
+        },
+        async logout() {
+          try {
+            await fetch('/api/logout', { method: 'POST', headers: { 'X-Session-Id': this.sessionId } })
+          } catch (e) { console.error('登出失败:', e) }
+          this.sessionId = ''
+          this.isAdminLoggedIn = false
+          localStorage.removeItem('adminSessionId')
+          this.page = 'survey'
+        },
+        getAuthHeaders() { return this.sessionId ? { 'X-Session-Id': this.sessionId } : {} },
+        goToSection(n) { this.currentSection = n },
+        nextSection() { if (this.currentSection < this.maxSection) { this.currentSection++; window.scrollTo(0, 0) } },
+        prevSection() { if (this.currentSection > 1) { this.currentSection--; window.scrollTo(0, 0) } },
+        async submitSurvey() {
+          this.form.submittedAt = new Date().toISOString()
+          try {
+            const res = await fetch('/api/submissions', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(this.form) })
+            if (res.ok) { this.submitted = true; window.scrollTo(0, 0) } else alert('提交失败，请重试')
+          } catch (e) { alert('提交失败：' + e.message) }
+        },
+        async loadData() {
+          if (!this.sessionId) return
+          try {
+            const res = await fetch('/api/submissions', { headers: this.getAuthHeaders() })
+            if (res.ok) {
+              this.submissions = await res.json()
+            } else if (res.status === 401) {
+              this.logout()
+              alert('会话已过期，请重新登录')
+            }
+          } catch (e) { console.error('加载数据失败:', e) }
+        },
+        async deleteItem(id) {
+          if (!confirm('确定要删除这条提交记录吗？')) return
+          try {
+            const res = await fetch('/api/submissions/' + id, { method: 'DELETE', headers: this.getAuthHeaders() })
+            if (res.ok) { this.loadData() }
+            else if (res.status === 401) { this.logout(); alert('会话已过期，请重新登录') }
+            else { alert('删除失败') }
+          } catch (e) { alert('删除失败，请重试') }
+        },
+        viewDetail(item) { this.selectedItem = item; this.showDetail = true },
+        closeDetail() { this.showDetail = false; this.selectedItem = null },
+        formatDate(d, full = false) { const date = new Date(d); return full ? date.toLocaleString('zh-CN') : date.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) },
+        truncate(str, len) { if (!str) return ''; return str.length > len ? str.substring(0, len) + '...' : str },
+        exportCSV() {
+          const headers = ['提交时间', '年龄段', '性别', '职业', '职位', '用户类型', '大模型', '业务身份', '阿里产品']
+          const rows = this.filteredSubmissions.map(s => [this.formatDate(s.submittedAt, true), s.age, s.gender, s.occupation, s.position, s.userType, (s.models || []).join('; '), (s.businessIdentities || []).join('; '), (s.alibabaProducts || []).join('; ')])
+          const csv = [headers.join(','), ...rows.map(r => r.map(c => `"${c || ''}"`).join(','))].join('\n')
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+          const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = '问卷数据_' + new Date().toISOString().slice(0,10) + '.csv'; link.click()
+        }
+      }
+    }).mount('#app')
+  </script>
+</body>
+</html>
