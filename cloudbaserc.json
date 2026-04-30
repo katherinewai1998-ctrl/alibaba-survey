@@ -50,12 +50,24 @@
           "cloudPath": "/",
           "routes": [
             {
+              "source": "/index-a-cloud-qwen.html",
+              "destination": "/index-a-cloud-qwen.html"
+            },
+            {
+              "source": "/index-b-ecommerce-ding.html",
+              "destination": "/index-b-ecommerce-ding.html"
+            },
+            {
               "source": "/index-cloud-ai.html",
               "destination": "/index-cloud-ai.html"
             },
             {
               "source": "/index-ecommerce-office.html",
               "destination": "/index-ecommerce-office.html"
+            },
+            {
+              "source": "/index.html",
+              "destination": "/index.html"
             },
             {
               "source": "/admin.html",
